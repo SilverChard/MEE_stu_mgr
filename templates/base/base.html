@@ -1,0 +1,21 @@
+# coding=utf-8
+<%block name="main">
+    <%inherit file="/base/base_head.html"/>
+    <body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <!--顶栏-->
+        <%include file="/base/base_header.html"/>
+        
+        <!--功能菜单-->
+        <%block name="menu"/>
+
+        <!--主要内容-->
+        <main class="mdl-layout__content">
+            <div class="page-content">
+                    <%block name="content"/>
+            </div>
+        </main>
+    </div>
+        <%block name="js"/>
+    </body>
+</%block>

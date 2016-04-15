@@ -1,0 +1,92 @@
+# coding=utf-8
+<%inherit file="/base/base_head.html"/>
+<%block name="title">
+    登录
+</%block>
+<%block name="main">
+    <body class="mdl-typography--text-center" onkeydown="on_return()">
+    <h1 class="mdl-color-text--blue">
+        % if flag == 1 :
+            您尚未登录，请登录
+        % elif flag == 2:
+            用户id 或 密码错误
+        % else:
+            欢迎登录机电系学生信息管理系统
+        % endif
+    </h1>
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input id="user" type="text" class="mdl-textfield__input" pattern="^\d{0,8}$"/>
+        <label class="mdl-textfield__label">用户id</label>
+        <span class="mdl-textfield__error">请输入少于8位的数字</span>
+    </div>
+    <p></p>
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input id="pwd" type="password" class="mdl-textfield__input" pattern="^.{6,14}$"/>
+        <label class="mdl-textfield__label">密码</label>
+        <span class="mdl-textfield__error">密码不可以少于6位或大于14位</span>
+    </div>
+    <p></p>
+    <button id="login" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
+            type="button">
+        登录
+    </button>
+    <div id="show_msg" class="mdl-js-snackbar mdl-snackbar">
+        <div class="mdl-snackbar__text"></div>
+        <button class="mdl-snackbar__action" type="button"></button>
+    </div>
+
+    <script>
+
+
+        (function () {
+            'use strict';
+            window['counter'] = 0;
+            var printMsg = document.querySelector('#show_msg');
+            var loginButton = document.querySelector('#login');
+            loginButton.addEventListener('click', function () {
+                'use strict';
+
+                var user = document.getElementById('user').valueOf().value;
+                var pwd = document.getElementById('pwd').valueOf().value;
+                var userReg = /^\d{1,8}$/;
+                var pwdReg = /^.{6,14}$/;
+
+                if (userReg.test(user) && pwdReg.test(pwd)) {
+                    var msg = "网络错误，请检查服务器连接等问题";
+                    var show_data = {};
+                    $.ajax({
+                        url: "/login",
+                        type: "post",
+                        data: {
+                            'user': user,
+                            'pwd': pwd,
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.success) {
+                                msg = '登录成功';
+                                show_data = {message: msg};
+                                printMsg.MaterialSnackbar.showSnackbar(show_data);
+                                window.location.href = "/";
+                            }
+                            else {
+                                msg = '登录错误，请检查用户名或密码是否正确';
+                                show_data = {message: msg};
+                                printMsg.MaterialSnackbar.showSnackbar(show_data);
+                            }
+                        }
+                    })
+                }
+            });
+        }());
+        function on_return() {
+            if (window.event.keyCode == 13) {
+                if (document.all('login') != null) {
+                    document.all('login').click();
+                }
+            }
+        }
+
+    </script>
+    </body>
+</%block>
