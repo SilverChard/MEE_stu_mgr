@@ -15,3 +15,5 @@ class IndexHandler(BaseHandler):
     @tornado.web.authenticated
     def post(self, *args, **kwargs):
         self.render('index.html')
+
+

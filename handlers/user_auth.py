@@ -2,8 +2,8 @@
 from tornado import gen
 from tornado.web import MissingArgumentError
 
-import helper
 from handlers.base import BaseHandler
+from services import login_service
 
 __author__ = 'Silver'
 
@@ -30,12 +30,12 @@ class LoginHandler(BaseHandler):
         try:
             user = self.get_argument('user')
             pwd = self.get_argument('pwd')
-            res = yield helper.check_user(user, pwd)
+            res = yield login_service.check_user(user, pwd)
             if res[0]['check_flag'] == 1:
-                self.set_secure_cookie('userName', res[0]['name'])
+                self.set_secure_cookie('userName', res[0]['admin_name'])
                 data_json = {
                     'success': True,
-                    'userName': res[0]['name']
+                    'userName': res[0]['admin_name']
                 }
             else:
                 data_json = {
@@ -44,9 +44,6 @@ class LoginHandler(BaseHandler):
             self.write_json(data_json)
         except MissingArgumentError:
             pass
-
-
-
 
 
 class LogoutHanlder(BaseHandler):

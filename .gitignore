@@ -52,3 +52,5 @@ Temporary Items
 
 # python
 *.pyc
+
+*/trash/*
