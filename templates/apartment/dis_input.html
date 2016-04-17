@@ -1,0 +1,169 @@
+# coding=utf-8
+<%inherit file="/apartment/apartment_base.html"/>
+<%block name="title">
+    公寓违纪录入
+</%block>
+<%block name="content">
+
+
+
+
+
+
+    ##         违纪信息录入
+
+    <div class="mdl-typography--text-center">
+        <h5 class="red-text">请输入学号并选择违纪类型</h5>
+    </div>
+    <div class="mdl-typography--text-center">
+
+        <form action="">
+
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" pattern="^\d{8}$" id="stu_id"
+                       onchange="getInfo()"/>
+                <label class="mdl-textfield__label" for="stu_id">请输入违纪学生学号</label>
+                <span class="mdl-textfield__error">学号为8位纯数字</span>
+            </div>
+            <div id='stu_name_div' class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="stu_name" value=""
+                       readonly/>
+                <label class="mdl-textfield__label" for="stu_name">学生姓名:</label>
+                <span class="mdl-textfield__error">无此学号对应的学生信息</span>
+            </div>
+            <div id='stu_sex_div' class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="stu_sex" value=""
+                       readonly/>
+                <label class="mdl-textfield__label" for="stu_sex">学生性别:</label>
+                <span class="mdl-textfield__error">无此学号对应的学生信息</span>
+            </div>
+
+            <br>
+
+            <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label">
+                <select id="discipline_type" class="mdl-selectfield__select" onchange=" sub_type_get_select2()">
+                    <option></option>
+                    <option value="dis_item">宿舍违纪物品</option>
+                    <option value="dis_behavior">宿舍违纪行为</option>
+                </select>
+                <label for="discipline_type" class="mdl-selectfield__label">
+                    违纪类型
+                </label>
+                <span class="mdl-selectfield__error">请选择一种违纪类型</span>
+            </div>
+            <div id='discipline_2_div' class='mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label'>
+
+                <select id='discipline_2' class='mdl-selectfield__select' onchange='sub_()'>
+                </select>
+                <label for='discipline_2' class='mdl-selectfield__label'
+                       id="discipline_2_label"></label>
+                <span class='mdl-selectfield__error'>请选择</span>
+            </div>
+            <br>
+            <div class="mdl-textfield mdl-js-textfield">
+                <textarea class="mdl-textfield__input" type="text" rows="3" id="others"></textarea>
+                <label class="mdl-textfield__label" for="others">备注</label>
+            </div>
+
+
+            <div class="mdl-typography--text-center ">
+                <div id="date_container" class="mdl-textfield mdl-js-textfield">
+                    <input type="date" id="dis_date">
+                    <label class="mdl-textfield__label" id="date_label" for="date">违纪时间</label>
+                </div>
+            </div>
+            <div class="mdl-typography--text-center">
+
+                <button id="submit"
+                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
+                        type="button" onclick="sub_form()">
+                    提交
+                </button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button id="reset"
+                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
+                        type="button" onclick="reset_fun()">
+                    重置
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+
+</%block>
+<%block name="js">
+    <script>
+        function getInfo() {
+            var stu_idReg = /^\d{8}$/;
+            var stu_id = document.getElementById('stu_id').valueOf().value;
+
+            if (stu_idReg.test(stu_id)) {
+                $.ajax({
+                    url: '/getStuInfoById',
+                    type: 'post',
+                    data: {'stu_id': stu_id},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.success) {
+                            document.getElementById('stu_name').valueOf().value = data['stu_name'];
+                            document.getElementById('stu_name_div').className = 'mdl-textfield mdl-js-textfield mdl-textfield--floating-label is-upgraded is-dirty';
+                            document.getElementById('stu_sex').valueOf().value = data['stu_sex'];
+                            document.getElementById('stu_sex_div').className = 'mdl-textfield mdl-js-textfield mdl-textfield--floating-label is-upgraded is-dirty';
+                        } else {
+                            document.getElementById('stu_name').valueOf().value = "学号输入有误或未录入该生信息";
+                            document.getElementById('stu_name_div').className = 'mdl-textfield mdl-js-textfield mdl-textfield--floating-label is-upgraded is-dirty is-invalid';
+                            document.getElementById('stu_sex').valueOf().value = "学号输入有误或未录入该生信息";
+                            document.getElementById('stu_sex_div').className = 'mdl-textfield mdl-js-textfield mdl-textfield--floating-label is-upgraded is-dirty is-invalid';
+                        }
+                    }
+                });
+
+            }
+        }
+        function sub_type_get_select2() {
+            var dis_type = document.getElementById('discipline_type').valueOf().value;
+            if (dis_type == "dis_item") {
+                document.getElementById("discipline_2").innerHTML = "<option></option><option value='1' class='mdl-selectfield'>烟</option><option value='2' class='mdl-selectfield'>酒</option><option value='3' class='mdl-selectfield'>打火机</option><option value='4' class='mdl-selectfield'>管制刀具</option><option value='5' class='mdl-selectfield'>违规电器</option><option value='10' class='mdl-selectfield'>其他违规物品</option>";
+                document.getElementById("discipline_2_label").innerHTML = "请选择违纪物品";
+                ##                 document.getElementById('discipline_item_div').className = "mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label";
+                ##                 document.getElementById('discipline_behavior_div').className = "mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label  invisible";
+                            }
+            else if (dis_type == "dis_behavior") {
+                document.getElementById("discipline_2").innerHTML = "<option></option><option value='1' class='mdl-selectfield'>早归</option><option value='2' class='mdl-selectfield'>晚归</option><option value='3' class='mdl-selectfield'>夜不归宿</option><option value='4' class='mdl-selectfield'>私开小卖部</option><option value='5' class='mdl-selectfield'>聚众打麻将</option><option value='6' class='mdl-selectfield'>私养宠物</option><option value='7' class='mdl-selectfield'>宿舍打架</option><option value='10' class='mdl-selectfield'>其他违规行为</option>";
+                document.getElementById("discipline_2_label").innerHTML = "请选择违纪行为";
+                ##                 document.getElementById('discipline_item_div').className = "mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label  invisible";
+                ##                 document.getElementById('discipline_behavior_div').className = "mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label ";
+                            }
+
+        }
+
+        function sub_form() {
+            var stu_id = document.getElementById("stu_id").valueOf().value;
+            var dis_type = document.getElementById("discipline_type").valueOf().value;
+            var dis_2 = document.getElementById("discipline_2").valueOf().value;
+            var others = document.getElementById("others").valueOf().value;
+            $.ajax({
+                url: "/apartment/sub_dis",
+                type: "post",
+                data: {
+                    'stu_id': stu_id,
+                    'dis_type': dis_type,
+                    'dis_2': dis_2,
+                    'others': others
+
+                },
+                dataType: "json",
+                success(data){
+
+                }
+            });
+        }
+
+        function reset_fun() {
+            location.reload(true);
+        }
+
+    </script>
+
+</%block>
