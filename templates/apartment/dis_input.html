@@ -142,22 +142,27 @@
             var stu_id = document.getElementById("stu_id").valueOf().value;
             var dis_type = document.getElementById("discipline_type").valueOf().value;
             var dis_2 = document.getElementById("discipline_2").valueOf().value;
+            var dis_date = document.getElementById("dis_date").valueOf().value;
             var others = document.getElementById("others").valueOf().value;
-            $.ajax({
-                url: "/apartment/sub_dis",
-                type: "post",
-                data: {
-                    'stu_id': stu_id,
-                    'dis_type': dis_type,
-                    'dis_2': dis_2,
-                    'others': others
+            if (stu_id == "" || dis_type == "" || dis_2 == "" || dis_date == "") {
+                alert("请确保你已经填入所有项");
+            } else {
+                $.ajax({
+                    url: "/apartment/sub_dis",
+                    type: "post",
+                    data: {
+                        'stu_id': stu_id,
+                        'dis_type': dis_type,
+                        'dis_2': dis_2,
+                        'others': others,
+                        'dis_date': dis_date
+                    },
+                    dataType: "json",
+                    success(data){
 
-                },
-                dataType: "json",
-                success(data){
-
-                }
-            });
+                    }
+                });
+            }
         }
 
         function reset_fun() {

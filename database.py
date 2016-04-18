@@ -14,5 +14,8 @@ pool = pools.Pool(
 
 def cur_to_dict(cur):
     rows = cur._rows
-    keys = [item[0] for item in cur.description]
-    return [dict(zip(keys, row)) for row in rows]
+    if rows is not None:
+        keys = [item[0] for item in cur.description]
+        return [dict(zip(keys, row)) for row in rows]
+    else:
+        return []
