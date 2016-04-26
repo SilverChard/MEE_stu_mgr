@@ -1,7 +1,7 @@
 # coding=utf-8
 <%block name="main">
     <%inherit file="/base/base_head.html"/>
-    <body>
+    <body onload="onload_init()">
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
         <!--顶栏-->
         <%include file="/base/base_header.html"/>
@@ -17,5 +17,6 @@
         </main>
     </div>
         <%block name="js"/>
+    <%block name="css"/>
     </body>
 </%block>

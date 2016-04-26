@@ -1,0 +1,396 @@
+# coding=utf-8
+<%inherit file="/student/student_base.html"/>
+<%block name="title">
+    学生信息录入
+</%block>
+<%block name="content">
+    <form>
+        <div class="mdl-typography--text-center">
+            ##             学生个人信息 第一行
+                        <p>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label cus_input_div" id="stu_id_div">
+                <input class="mdl-textfield__input" type="text" pattern="^\d{8}$" id="stu_id"/>
+                <label class="mdl-textfield__label" for="stu_id">请输入学生学号</label>
+                <span class="mdl-textfield__error">学号为8位纯数字</span>
+            </div>
+
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label  cus_input_div" id="stu_name_div">
+                <input class="mdl-textfield__input" type="text" pattern="^.*$" id="stu_name"/>
+                <label class="mdl-textfield__label" for="stu_name">请输入学生姓名</label>
+                <span class="mdl-textfield__error">姓名不能为空</span>
+            </div>
+
+            <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label cus_input_div"
+                 id="stu_sex_div">
+                <select id="stu_sex" class="mdl-selectfield__select">
+                    <option></option>
+                    <option value="男">男</option>
+                    <option value="女">女</option>
+                </select>
+                <label for="stu_sex" class="mdl-selectfield__label">学生性别</label>
+                <span class="mdl-selectfield__error">请选择学生的性别</span>
+            </div>
+            </p>
+
+            ##             学生个人信息 第二行
+                        <p>
+            <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label cus_input_div"
+                 id="stu_nation_div">
+                <select id="stu_nation" class="mdl-selectfield__select">
+                    <option></option>
+                    <option>汉族</option>
+                    <option>壮族</option>
+                    <option>回族</option>
+                    <option>满族</option>
+                    <option>维吾尔族</option>
+                    <option>苗族</option>
+                    <option>彝族</option>
+                    <option>土家族</option>
+                    <option>藏族</option>
+                    <option>蒙古族</option>
+                    <option>侗族</option>
+                    <option>布依族</option>
+                    <option>瑶族</option>
+                    <option>白族</option>
+                    <option>朝鲜族</option>
+                    <option>哈尼族</option>
+                    <option>黎族</option>
+                    <option>哈萨克族</option>
+                    <option>傣族</option>
+                    <option>畲族</option>
+                    <option>傈僳族</option>
+                    <option>东乡族</option>
+                    <option>仡佬族</option>
+                    <option>拉祜族</option>
+                    <option>佤族</option>
+                    <option>水族</option>
+                    <option>纳西族</option>
+                    <option>羌族</option>
+                    <option>土族</option>
+                    <option>仫佬族</option>
+                    <option>锡伯族</option>
+                    <option>柯尔克孜族</option>
+                    <option>景颇族</option>
+                    <option>达斡尔族</option>
+                    <option>撒拉族</option>
+                    <option>布朗族</option>
+                    <option>毛南族</option>
+                    <option>塔吉克族</option>
+                    <option>普米族</option>
+                    <option>阿昌族</option>
+                    <option>怒族</option>
+                    <option>鄂温克族</option>
+                    <option>京族</option>
+                    <option>基诺族</option>
+                    <option>德昂族</option>
+                    <option>保安族</option>
+                    <option>俄罗斯族</option>
+                    <option>裕固族</option>
+                    <option>乌兹别克族</option>
+                    <option>门巴族</option>
+                    <option>鄂伦春族</option>
+                    <option>独龙族</option>
+                    <option>赫哲族</option>
+                    <option>高山族</option>
+                    <option>珞巴族</option>
+                    <option>塔塔尔族</option>
+                </select>
+                <label for="stu_nation" class="mdl-selectfield__label">学生民族</label>
+                <span class="mdl-selectfield__error">请选择学生的民族</span>
+            </div>
+
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label  cus_input_div" id="stu_tel_div">
+                <input class="mdl-textfield__input" type="text" pattern="^.*$" id="stu_tel"/>
+                <label class="mdl-textfield__label" for="stu_tel">学生联系方式</label>
+                <span class="mdl-textfield__error"></span>
+            </div>
+            </p>
+
+
+            ##             学生身份证号码
+                        <p>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label cus_input_div"
+                 style="width:165px" id="stu_cid_div">
+                <input class="mdl-textfield__input" type="text" pattern="^.*$" id="stu_cid"/>
+                <label class="mdl-textfield__label" for="stu_cid">学生身份证号</label>
+                <span class="mdl-textfield__error">请输入正确的18位身份证号</span>
+            </div>
+            </p>
+
+
+            ##             学生家庭住址
+                        <p>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label cus_input_div" style="width:600px"
+                 id="stu_adr_div">
+                <input class="mdl-textfield__input" type="text" pattern="^.*$" id="stu_adr"/>
+                <label class="mdl-textfield__label" for="stu_adr">学生家庭住址</label>
+                <span class="mdl-textfield__error"></span>
+            </div>
+            </p>
+
+
+            ##             专业班级与学生宿舍
+            <p>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label  cus_input_div" id="stu_class_div">
+                <input class="mdl-textfield__input" type="text" pattern="^.*$" id="stu_class"/>
+                <label class="mdl-textfield__label" for="stu_class">专业班级</label>
+                <span class="mdl-textfield__error"></span>
+            </div>
+
+            </p>
+            <p>
+            <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label cus_input_div"
+                 id="stu_room_div">
+                <select id="stu_room" class="mdl-selectfield__select">
+                    <option></option>
+                </select>
+                <label for="stu_room" class="mdl-selectfield__label">学生宿舍</label>
+                <span class="mdl-selectfield__error">请选择一个宿舍</span>
+            </div>
+
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label cus_input_div"
+                 id="stu_room_new_div">
+                <input class="mdl-textfield__input" type="text" pattern="^.*$" id="stu_room_new"/>
+                <label class="mdl-textfield__label" for="stu_room_new">新增学生宿舍</label>
+                <span class="mdl-textfield__error"></span>
+            </div>
+
+            </p>
+
+
+            ##          <
+
+            <p>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label  cus_input_div" id="stu_class_div">
+                <input class="mdl-textfield__input" type="text" pattern="^.*$" id="stu_class"/>
+                <label class="mdl-textfield__label" for="stu_class">专业班级</label>
+                <span class="mdl-textfield__error"></span>
+            </div>
+            <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label cus_input_div"
+                 id="stu_room_div">
+                <select id="stu_room" class="mdl-selectfield__select">
+                    <option></option>
+                </select>
+                <label for="stu_room" class="mdl-selectfield__label">学生宿舍</label>
+                <span class="mdl-selectfield__error">请选择一个宿舍</span>
+            </div>
+            </p>
+
+
+            <p>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label cus_input_div"
+                 id="stu_parent_name1_div">
+                <input class="mdl-textfield__input" type="text" pattern="^.*$" id="stu_parent_name1"/>
+                <label class="mdl-textfield__label" for="stu_parent_name1">监护人姓名1</label>
+                <span class="mdl-textfield__error">姓名不能为空</span>
+            </div>
+
+            <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label cus_input_div"
+                 id="stu_parent_relation1_div">
+                <select id="stu_parent_relation1" class="mdl-selectfield__select">
+                    <option></option>
+                    <option>父亲</option>
+                    <option>母亲</option>
+                    <option>爷爷</option>
+                    <option>奶奶</option>
+                    <option>老爷</option>
+                    <option>姥姥</option>
+                    <option>其他</option>
+                </select>
+                <label for="stu_parent_relation1" class="mdl-selectfield__label">监护人的关系1</label>
+                <span class="mdl-selectfield__error">请选择一个关系</span>
+            </div>
+
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label  cus_input_div"
+                 id="stu_parent_tel1_div">
+                <input class="mdl-textfield__input" type="text" pattern="^.*$" id="stu_parent_tel1"/>
+                <label class="mdl-textfield__label" for="stu_parent_tel1">监护人联系方式1</label>
+                <span class="mdl-textfield__error"></span>
+            </div>
+            </p>
+            <p>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label  cus_input_div"
+                 id="stu_parent_name2_div">
+                <input class="mdl-textfield__input" type="text" pattern="^.*$" id="stu_parent_name2"/>
+                <label class="mdl-textfield__label" for="stu_parent_name2">监护人姓名2</label>
+                <span class="mdl-textfield__error">姓名不能为空</span>
+            </div>
+
+            <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label cus_input_div"
+                 id="stu_parent_relation2_div">
+                <select id="stu_parent_relation2" class="mdl-selectfield__select">
+                    <option></option>
+                    <option>父亲</option>
+                    <option>母亲</option>
+                    <option>爷爷</option>
+                    <option>奶奶</option>
+                    <option>老爷</option>
+                    <option>姥姥</option>
+                    <option>其他</option>
+                </select>
+                <label for="stu_parent_relation2" class="mdl-selectfield__label">监护人的关系2</label>
+                <span class="mdl-selectfield__error">请选择一个关系</span>
+            </div>
+
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label  cus_input_div"
+                 id="stu_parent_tel2_div">
+                <input class="mdl-textfield__input" type="text" pattern="^.*$" id="stu_parent_tel2"/>
+                <label class="mdl-textfield__label" for="stu_parent_tel2">监护人联系方式2</label>
+                <span class="mdl-textfield__error"></span>
+            </div>
+            </p>
+
+            <button id="submit"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
+                    type="button" onclick="sub_form()">
+                提交
+            </button>
+
+            <button id="reset"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
+                    type="button" onclick="reset_fun()">
+                重置
+            </button>
+
+        </div>
+
+    </form>
+</%block>
+
+<%block name='js'>
+    <script>
+
+        function sub_form() {
+            var stu_id = document.getElementById('stu_id').valueOf().value;
+            var stu_name = document.getElementById('stu_name').valueOf().value;
+            var stu_sex = document.getElementById('stu_sex').valueOf().value;
+            var stu_nation = document.getElementById('stu_nation').valueOf().value;
+            var stu_tel = document.getElementById('stu_tel').valueOf().value;
+            var stu_cid = document.getElementById('stu_cid').valueOf().value;
+            var stu_adr = document.getElementById('stu_adr').valueOf().value;
+            var stu_class = document.getElementById('stu_class').valueOf().value;
+            var stu_room = document.getElementById('stu_room').valueOf().value;
+            var stu_parent_name_1 = document.getElementById('stu_parent_name1').valueOf().value;
+            var stu_parent_relation_1 = document.getElementById('stu_parent_relation1').valueOf().value;
+            var stu_parent_tel_1 = document.getElementById('stu_parent_tel1').valueOf().value;
+            var stu_parent_name_2 = document.getElementById('stu_parent_name2').valueOf().value;
+            var stu_parent_relation_2 = document.getElementById('stu_parent_relation2').valueOf().value;
+            var stu_parent_tel_2 = document.getElementById('stu_parent_tel2').valueOf().value;
+            var id_reg = /^\d{8}$/;
+            var cid_reg = /^\d{18}$/;
+            if ((stu_parent_name_1 != "" && stu_parent_relation_1 != "" && stu_parent_tel_1 != "") || (stu_parent_name_2 != "" && stu_parent_relation_2 != "" && stu_parent_tel_2 != "")) {
+                if (stu_id != "" && id_reg.test(stu_id) && stu_name != "" && stu_sex != "" && stu_nation != "" && stu_tel != "" && stu_cid != "" && cid_reg.test(stu_cid) && stu_adr != "" && stu_class != "" && stu_room != "") {
+                    $.ajax({
+                        url: '',
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            'stu_id': stu_id,
+                            'stu_name': stu_name,
+                            'stu_sex': stu_sex,
+                            'stu_nation': stu_nation,
+                            'stu_tel': stu_tel,
+                            'stu_cid': stu_cid,
+                            'stu_adr': stu_adr,
+                            'stu_class': stu_class,
+                            'stu_room': stu_room
+                        },
+                        success(data){
+
+                        }
+
+                    });
+
+                }
+                    ## life is short , I use python !
+                else {
+                    alert('有未填选项');
+                    if (stu_id == "" || !id_reg.test(stu_id))
+                        document.getElementById('stu_id_div').classList.add('is-invalid');
+                    if (stu_name == "")
+                        document.getElementById('stu_name_div').classList.add('is-invalid');
+                    if (stu_sex == "")
+                        document.getElementById('stu_sex_div').classList.add('is-invalid');
+                    if (stu_nation == "")
+                        document.getElementById('stu_nation_div').classList.add('is-invalid');
+                    if (stu_tel == "")
+                        document.getElementById('stu_tel_div').classList.add('is-invalid');
+                    if (stu_cid == "" || !cid_reg.test(stu_cid))
+                        document.getElementById('stu_cid_div').classList.add('is-invalid');
+                    if (stu_adr == "")
+                        document.getElementById('stu_adr_div').classList.add('is-invalid');
+                    if (stu_class == "")
+                        document.getElementById('stu_class_div').classList.add('is-invalid');
+                    if (stu_room == "")
+                        document.getElementById('stu_room_div').classList.add('is-invalid');
+                }
+            }
+            else {
+                alert('请至少填写一名监护人的完整信息');
+
+                if (stu_parent_name_1 == "")
+                    document.getElementById('stu_parent_name1_div').classList.add('is-invalid');
+                if (stu_parent_relation_1 == "")
+                    document.getElementById('stu_parent_relation1_div').classList.add('is-invalid');
+                if (stu_parent_tel_1 == "")
+                    document.getElementById('stu_parent_tel1_div').classList.add('is-invalid');
+                if (stu_parent_name_2 == "")
+                    document.getElementById('stu_parent_name2_div').classList.add('is-invalid');
+                if (stu_parent_relation_2 == "")
+                    document.getElementById('stu_parent_relation2_div').classList.add('is-invalid');
+                if (stu_parent_tel_2 == "")
+                    document.getElementById('stu_parent_tel2_div').classList.add('is-invalid');
+            }
+
+        }
+
+        function get_room() {
+            $.ajax({
+                url: "/getStuRoom",
+                type: "post",
+                dataType: "json",
+                success(data){
+
+                    if (data.success) {
+                        var option_str = "<option></option>";
+                        for (var it in data.room_info) {
+                            option_str = option_str.concat("<option value = '", data.room_info[it].id, "'>", data.room_info[it].room_name, "</option>");
+                        }
+                        option_str = option_str.concat("<option value='others'>新增</option>");
+                        document.getElementById('stu_room').innerHTML = option_str;
+                    }
+                }
+            });
+        }
+
+        function get_class() {
+            $.ajax({
+                url: "/getStuClass",
+                type: "post",
+                dataType: "json",
+                success(data){
+                    if (data.success) {
+
+                    }
+                }
+            });
+        }
+
+        function onload_init() {
+            get_room();
+            get_class();
+        }
+    </script>
+</%block>
+
+
+
+<%block name="css">
+    <style>
+        .cus_input_div {
+            margin-left: 20px;
+            margin-right: 20px;
+            width: 120px
+        }
+    </style>
+</%block>

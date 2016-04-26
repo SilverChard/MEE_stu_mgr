@@ -12,6 +12,13 @@ def get_stu_info_by_id(stu_id):
     raise gen.Return(rs)
 
 
+@gen.coroutine
+def get_room_info():
+    cur = yield database.pool.execute("SELECT * FROM student_room;")
+    rs = database.cur_to_dict(cur)
+    raise gen.Return(rs)
+
+
 def get_dis_item_by_num(num):
     item = None
     if num == 1:
@@ -53,7 +60,7 @@ def get_dis_behavior_by_num(num):
 def get_dis_type_by_num(num):
     dis_type = None
     if num == 1:
-        dis_type = '早归'
+        dis_type = "宿舍违纪物品"
     elif num == 2:
-        dis_type = "晚归"
+        dis_type = "宿舍行为违纪"
     return dis_type

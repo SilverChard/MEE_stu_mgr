@@ -1,0 +1,199 @@
+# coding=utf-8
+<%inherit file="/apartment/apartment_base.html"/>
+<%block name="title">
+    公寓违纪查询
+</%block>
+<%block name="content">
+<div class="mdl-typography--text-center" onload="onload_init()">
+
+    <table class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp mdl-typography--text-center" style="margin: auto">
+        <thead>
+        <tr>
+            <th style="padding-bottom: 10px;">违纪编号</th>
+            <th style="padding-bottom: 10px;">姓名</th>
+            <th style="padding-bottom: 10px;"><select id="stu_sex" onchange="getDisTable()">
+                <option value="0">性别</option>
+                <option value="1">男</option>
+                <option value="2">女</option>
+            </select></th>
+            <th>
+                <div class="mdl-textfield mdl-js-textfield" style="font-size: small;padding: 0;width: 80px;"><label
+                        for="stu_id">学号</label>
+                    <div class="mdl-textfield__expandable-holder" style="margin:0;padding: 0"><input
+                            class="mdl-textfield__input" type="text" id="stu_id" onchange="getDisTable()"></div>
+                </div>
+            </th>
+            <th style="padding-bottom: 10px;"><select id="stu_room" onchange="getDisTable()">
+                <option value="0">宿舍号</option>
+            </select></th>
+            <th style="padding-bottom: 10px;"><select id="dis_type" style="width: 80px" onchange="type2class()">
+                <option value="0">违纪类型</option>
+                <option value="1">宿舍违纪物品</option>
+                <option value="2">宿舍行为违纪</option>
+            </select></th>
+            <th style="padding-bottom: 10px;"><select id="dis_class" onchange="getDisTable()">
+                <option value="0">违纪原因</option>
+            </select></th>
+            <th style="padding-bottom: 10px;">违纪时间</th>
+            <th style="padding-bottom: 10px;">备注</th>
+        </tr>
+        </thead>
+        <tbody id="table_body">
+
+
+        </tbody>
+    </table>
+    <div id='page_no_div' class='mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label'
+         style="width: 100px;margin-right: 30px">
+
+        <select id='page_no' class='mdl-selectfield__select mdl-typography--text-center' onchange="getDisTable();">
+            <option>1</option>
+        </select>
+        <label for='page_no' class='mdl-selectfield__label'>请选择页码</label>
+        <span class='mdl-selectfield__error'>请选择</span>
+    </div>
+
+
+
+    <div id='offset_div' class='mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label'
+         style="width: 100px" onchange="onload_init()">
+        <select id='offset' class='mdl-selectfield__select'>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="30">30</option>
+            <option value="0">all</option>
+        </select>
+        <label for='offset' class='mdl-selectfield__label'>请选择分页量</label>
+        <span class='mdl-selectfield__error'>请选择</span>
+    </div>
+
+</%block>
+<%block name="js">
+    <script>
+        function getAllRoom() {
+            var stu_sex = document.getElementById('stu_sex').valueOf().value;
+            var stu_id = parseInt(document.getElementById('stu_id').valueOf().value);
+            var stu_room = document.getElementById('stu_room').valueOf().value;
+            var dis_type = document.getElementById('dis_type').valueOf().value;
+            var dis_class = document.getElementById('dis_class').valueOf().value;
+            stu_id = (stu_id) ? stu_id : '0';
+            $.ajax({
+                url: "/apartment/get_stu_room",
+                type: "post",
+                data: {
+                    'stu_sex': stu_sex,
+                    'stu_id': stu_id,
+                    'dis_type': dis_type,
+                    'dis_class': dis_class
+                },
+                dataType: "json",
+                success(data){
+                    var option_str = "<option value='0'>宿舍号</option>";
+                    if (data.success) {
+                        for (var it in data.room_info) {
+                            option_str = option_str.concat("<option>", data.room_info[it].stu_room, "</option>");
+                        }
+                        document.getElementById("stu_room").innerHTML = option_str;
+
+                    }
+                }
+            });
+        }
+
+        function set_page(default_num,info_num) {
+            var html_str = "";
+            var offset = document.getElementById('offset').valueOf().value;
+            var all_pages = info_num/offset+2;
+            var i=0;
+            while(i < all_pages){
+                if(i!=default_num){
+                html_str = html_str.concat("<option>",i,"</option>");
+                    }else {
+                    html_str = html_str.concat("<option  selected='selected'>",i,"</option>");
+                }
+                i++;
+            }
+            document.getElementById("page_no").innerHTML=""
+        }
+
+        function onload_init() {
+            var offset = document.getElementById('offset').valueOf().value;
+            var page_num = (${dis_num}/ offset + 1
+        )
+            ;
+            var i = 1;
+            var str = " ";
+            if (offset == 0) {
+                page_num = 2;
+            }
+            while (i < page_num) {
+                str = str.concat("<option>", i, "</option>");
+                i++;
+            }
+            document.getElementById('page_no').innerHTML = str;
+            getDisTable(1);
+            getAllRoom();
+        }
+
+        function getDisTable() {
+            var page_str = document.getElementById('page_no').valueOf().value;
+            var page_start = (parseInt(page_str) - 1) * 10;
+            var page_offset = document.getElementById('offset').valueOf().value;
+            var stu_sex = document.getElementById('stu_sex').valueOf().value;
+            var stu_id = parseInt(document.getElementById('stu_id').valueOf().value);
+            var stu_room = document.getElementById('stu_room').valueOf().value;
+            var dis_type = document.getElementById('dis_type').valueOf().value;
+            var dis_class = document.getElementById('dis_class').valueOf().value;
+            stu_id = (stu_id) ? stu_id : '0';
+            $.ajax({
+                url: "/apartment/get_dis",
+                type: "post",
+                data: {
+                    'page_start': page_start,
+                    'page_offset': page_offset,
+                    'stu_sex': stu_sex,
+                    'stu_id': stu_id,
+                    'stu_room': stu_room,
+                    'dis_type': dis_type,
+                    'dis_class': dis_class
+                },
+                dataType: "json",
+                success(data){
+                    if (data.success) {
+                        var table_str = " ";
+                        for (var every_iter in data.table_info) {
+                            table_str = table_str.concat("<tr>");
+                            table_str = table_str.concat("<th>", data.table_info[every_iter].id, "</th>");
+                            table_str = table_str.concat("<th>", data.table_info[every_iter].stu_name, "</th>");
+                            table_str = table_str.concat("<th>", data.table_info[every_iter].stu_sex, "</th>");
+                            table_str = table_str.concat("<th>", data.table_info[every_iter].stu_id, "</th>");
+                            table_str = table_str.concat("<th>", data.table_info[every_iter].stu_room, "</th>");
+                            table_str = table_str.concat("<th>", data.table_info[every_iter].dis_type, "</th>");
+                            table_str = table_str.concat("<th>", data.table_info[every_iter].dis_class, "</th>");
+                            table_str = table_str.concat("<th>", data.table_info[every_iter].dis_date, "</th>");
+                            table_str = table_str.concat("<th>", data.table_info[every_iter].others, "</th>");
+                            table_str = table_str.concat("</tr>");
+                        }
+                        document.getElementById('table_body').innerHTML = table_str;
+
+                    }
+
+                }
+            });
+        }
+
+        function type2class() {
+            var dis_type = document.getElementById('dis_type').valueOf().value;
+            getDisTable();
+            if (dis_type == 1) {
+                document.getElementById("dis_class").innerHTML = "<option value='0'>违纪原因</option><option value='1' class='mdl-selectfield'>烟</option><option value='2' class='mdl-selectfield'>酒</option><option value='3' class='mdl-selectfield'>打火机</option><option value='4' class='mdl-selectfield'>管制刀具</option><option value='5' class='mdl-selectfield'>违规电器</option><option value='10' class='mdl-selectfield'>其他违规物品</option>";
+
+            }
+            else if (dis_type == 2) {
+                document.getElementById("dis_class").innerHTML = "<option value='0'>违纪原因</option><option value='1' class='mdl-selectfield'>早归</option><option value='2' class='mdl-selectfield'>晚归</option><option value='3' class='mdl-selectfield'>夜不归宿</option><option value='4' class='mdl-selectfield'>私开小卖部</option><option value='5' class='mdl-selectfield'>聚众打麻将</option><option value='6' class='mdl-selectfield'>私养宠物</option><option value='7' class='mdl-selectfield'>宿舍打架</option><option value='10' class='mdl-selectfield'>其他违规行为</option>";
+
+            }
+        }
+
+    </script>
+</%block>

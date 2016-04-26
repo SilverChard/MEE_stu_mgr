@@ -20,3 +20,12 @@ class GetStuInfoByIdHandler(BaseHandler):
             wrt = {'success': False, 'stu_name': '学号有误', 'stu_sex': '学号有误'}
 
         self.write_json(wrt)
+
+
+class GetRoomHandler(BaseHandler):
+    @tornado.web.authenticated
+    @gen.coroutine
+    def post(self, *args, **kwargs):
+        sql_res = yield helper_service.get_room_info()
+        wrt = {'success': True, 'room_info': sql_res}
+        self.write_json(wrt)

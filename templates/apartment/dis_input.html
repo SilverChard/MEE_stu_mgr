@@ -53,7 +53,7 @@
             </div>
             <div id='discipline_2_div' class='mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label'>
 
-                <select id='discipline_2' class='mdl-selectfield__select' onchange='sub_()'>
+                <select id='discipline_2' class='mdl-selectfield__select'>
                 </select>
                 <label for='discipline_2' class='mdl-selectfield__label'
                        id="discipline_2_label"></label>
@@ -88,6 +88,10 @@
             </div>
 
         </form>
+    </div>
+    <div id="show_msg" class="mdl-js-snackbar mdl-snackbar">
+        <div class="mdl-snackbar__text"></div>
+        <button class="mdl-snackbar__action" type="button"></button>
     </div>
 
 
@@ -144,6 +148,10 @@
             var dis_2 = document.getElementById("discipline_2").valueOf().value;
             var dis_date = document.getElementById("dis_date").valueOf().value;
             var others = document.getElementById("others").valueOf().value;
+            var printMsg = document.querySelector('#show_msg');
+            var handler = function (event) {
+                window.location.reload();
+            };
             if (stu_id == "" || dis_type == "" || dis_2 == "" || dis_date == "") {
                 alert("请确保你已经填入所有项");
             } else {
@@ -159,6 +167,22 @@
                     },
                     dataType: "json",
                     success(data){
+                        if (data.success) {
+                            var message_data = {
+                                message: '录入成功',
+                                actionHandler: handler,
+                                actionText: '继续录入',
+                                timeout:3000
+                            };
+                            printMsg.MaterialSnackbar.showSnackbar(message_data);
+                            setTimeout(function () {
+                                window.location.href = "/";
+                            }, 2000);
+
+                        }
+                        else {
+                            printMsg.MaterialSnackbar.showSnackbar({message: "录入失败 请检查网络是否正确"});
+                        }
 
                     }
                 });
