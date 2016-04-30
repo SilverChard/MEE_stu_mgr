@@ -13,6 +13,13 @@ def get_stu_info_by_id(stu_id):
 
 
 @gen.coroutine
+def get_class_info():
+    cur = yield  database.pool.execute('SELECT * FROM student_class;')
+    rs = database.cur_to_dict(cur)
+    raise gen.Return(rs)
+
+
+@gen.coroutine
 def get_room_info():
     cur = yield database.pool.execute("SELECT * FROM student_room;")
     rs = database.cur_to_dict(cur)

@@ -1,7 +1,7 @@
 # coding=utf-8
 from handlers.apartment import ApartmentIndexHandler, ApartmentDisInputHandler, ApartmentSubDisIndexHandler, \
     ApartmentDisShowHandler, ApartmentDisGetHandler, ApartmentGetStuRoomHandler
-from handlers.helper import GetStuInfoByIdHandler, GetRoomHandler
+from handlers.helper import GetStuInfoByIdHandler, GetRoomHandler, GetClassHandler
 from handlers.index import IndexHandler
 from handlers.student import StudentManagerHandler, AddStudentHandler, ShowStudentHandler
 from handlers.user_auth import LoginHandler, LogoutHanlder
@@ -16,7 +16,6 @@ url_patterns = [
     (r'/apartment/get_dis', ApartmentDisGetHandler),
     (r'/apartment/get_stu_room', ApartmentGetStuRoomHandler),
 
-
     # 学生类
     (r'/stu_mgr', StudentManagerHandler),
     (r'/stu_mgr/stu_add', AddStudentHandler),
@@ -26,6 +25,7 @@ url_patterns = [
     (r'/', IndexHandler),
     (r'/getStuInfoById', GetStuInfoByIdHandler),
     (r'/getStuRoom', GetRoomHandler),
+    (r'/getStuClass', GetClassHandler),
     # 权限类
     (r'/login', LoginHandler),
     (r'/logout', LogoutHanlder)

@@ -21,6 +21,14 @@ class GetStuInfoByIdHandler(BaseHandler):
 
         self.write_json(wrt)
 
+class GetClassHandler(BaseHandler):
+    @tornado.web.authenticated
+    @gen.coroutine
+    def post(self, *args, **kwargs):
+        sql_res = yield helper_service.get_class_info()
+        wrt = {'success': True, 'class_info': sql_res}
+        self.write_json(wrt)
+
 
 class GetRoomHandler(BaseHandler):
     @tornado.web.authenticated
