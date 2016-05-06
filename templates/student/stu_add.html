@@ -253,6 +253,15 @@
         </div>
 
     </form>
+
+    <div id="show_msg" class="mdl-js-snackbar mdl-snackbar">
+        <div class="mdl-snackbar__text"></div>
+        <button class="mdl-snackbar__action" type="button"></button>
+    </div>
+
+
+
+
 </%block>
 
 <%block name='js'>
@@ -276,48 +285,65 @@
             var stu_parent_tel_2 = document.getElementById('stu_parent_tel2').valueOf().value;
             var id_reg = /^\d{8}$/;
             var cid_reg = /^\d{18}$/;
+            var printMsg = document.querySelector('#show_msg');
+            //如果监护人信息全填
             if ((stu_parent_name_1 != "" && stu_parent_relation_1 != "" && stu_parent_tel_1 != "") || (stu_parent_name_2 != "" && stu_parent_relation_2 != "" && stu_parent_tel_2 != "")) {
-                if (stu_id != "" && id_reg.test(stu_id) && stu_name != "" && stu_sex != "" && stu_nation != "" && stu_tel != "" && stu_cid != "" && cid_reg.test(stu_cid) && stu_adr != "" && stu_class != "" && stu_room != "") {
-                    if (stu_class == 'others') {
-                        stu_class = document.getElementById('stu_class_new').valueOf().value;
+                //如果所有基本信息全填
+                if (stu_id != "" && id_reg.test(stu_id) && stu_name != "" && stu_sex != "" && stu_nation != "" && stu_tel != "" && stu_cid != "" && cid_reg.test(stu_cid) && stu_adr != "" && stu_class != "" && stu_room != "" && ((stu_room != "" && (stu_room != 'others' || stu_room_new != "")) && (stu_class != "" && (stu_class != 'others' || document.getElementById('stu_class_new').valueOf().value != "")))) {
+                    var ajax_data = {
+                        'stu_id': stu_id,
+                        'stu_name': stu_name,
+                        'stu_sex': stu_sex,
+                        'stu_nation': stu_nation,
+                        'stu_tel': stu_tel,
+                        'stu_cid': stu_cid,
+                        'stu_adr': stu_adr,
+                        'stu_class': stu_class,
+                        'stu_room': stu_room
+                    };
+                    if (stu_room == "others") {
+                        ajax_data.stu_room_new = document.getElementById('stu_room_new').valueOf().value;
                     }
-
-                    if (stu_room == 'others') {
-                        stu_room = document.getElementById('stu_room_new').valueOf().value;
+                    if (stu_class == "others") {
+                        ajax_data.stu_class_new = document.getElementById('stu_class_new').valueOf().value;
                     }
-
-                    if (stu_class == "") {
-                        document.getElementById('stu_class_new_div').classList.add('is-invalid');
-                    } else if (stu_room == "") {
-                        document.getElementById('stu_room_new_div').classList.add('is-invalid');
+                    if (stu_parent_name_1 != "" && stu_parent_relation_1 != "" && stu_parent_tel_1 != "") {
+                        ajax_data.stu_parent_name = stu_parent_name_1;
+                        ajax_data.stu_parent_relation = stu_parent_relation_1;
+                        ajax_data.stu_parent_tel = stu_parent_tel_1;
+                        ajax_data.stu_parent_name_vice = stu_parent_name_2;
+                        ajax_data.stu_parent_relation_vice = stu_parent_relation_2;
+                        ajax_data.stu_parent_tel_vice = stu_parent_tel_2;
                     }
                     else {
-                        $.ajax({
-                            url: '',
-                            type: "post",
-                            dataType: "json",
-                            data: {
-                                'stu_id': stu_id,
-                                'stu_name': stu_name,
-                                'stu_sex': stu_sex,
-                                'stu_nation': stu_nation,
-                                'stu_tel': stu_tel,
-                                'stu_cid': stu_cid,
-                                'stu_adr': stu_adr,
-                                'stu_class': stu_class,
-                                'stu_room': stu_room
-                            },
-                            success(data){
-
-                            }
-
-                        });
+                        ajax_data.stu_parent_name = stu_parent_name_2;
+                        ajax_data.stu_parent_relation = stu_parent_relation_2;
+                        ajax_data.stu_parent_tel = stu_parent_relation_2;
+                        ajax_data.stu_parent_name_vice = stu_parent_name_1;
+                        ajax_data.stu_parent_relation_vice = stu_parent_relation_1;
+                        ajax_data.stu_parent_tel_vice = stu_parent_relation_1;
                     }
 
+                    $.ajax({
+                        url: '/stu_mgr/stu_submit',
+                        type: "post",
+                        dataType: "json",
+                        data: ajax_data,
+                        success(data){
+                            printMsg.MaterialSnackbar.showSnackbar({message: data.message});
+                        }
+
+                    });
                 }
-                    ## life is short , I use python !
+
                 else {
-                    alert('有未填选项');
+                    printMsg.MaterialSnackbar.showSnackbar({message: '有未填选项'});
+                    //如果stu_class是新增 且 有未填项
+                    if (stu_class == 'others' && document.getElementById('stu_class_new').valueOf().value == "")
+                        document.getElementById('stu_class_new_div').classList.add('is-invalid');
+                    //如果stu_room是新增 且 有未填项
+                    if (stu_room == 'others' && document.getElementById('stu_room_new').valueOf().value == "")
+                        document.getElementById('stu_room_new_div').classList.add('is-invalid');
                     if (stu_id == "" || !id_reg.test(stu_id))
                         document.getElementById('stu_id_div').classList.add('is-invalid');
                     if (stu_name == "")
@@ -406,6 +432,10 @@
                 document.getElementById('stu_room_new_div').classList.remove('hidden');
                 document.getElementById('stu_room_new_div').style.display = true;
             }
+            else {
+                document.getElementById('stu_room_new_div').classList.add('hidden');
+                document.getElementById('stu_room_new_div').style.display = false;
+            }
         }
 
         function is_add_class() {
@@ -414,6 +444,9 @@
             if (stu_room_select == 'others') {
                 document.getElementById('stu_class_new_div').classList.remove('hidden');
                 document.getElementById('stu_class_new_div').style.display = true;
+            } else {
+                document.getElementById('stu_class_new_div').classList.add('hidden');
+                document.getElementById('stu_class_new_div').style.display = false;
             }
         }
 

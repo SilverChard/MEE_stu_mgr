@@ -3,7 +3,7 @@ from handlers.apartment import ApartmentIndexHandler, ApartmentDisInputHandler, 
     ApartmentDisShowHandler, ApartmentDisGetHandler, ApartmentGetStuRoomHandler
 from handlers.helper import GetStuInfoByIdHandler, GetRoomHandler, GetClassHandler
 from handlers.index import IndexHandler
-from handlers.student import StudentManagerHandler, AddStudentHandler, ShowStudentHandler
+from handlers.student import StudentManagerHandler, AddStudentHandler, ShowStudentHandler, StudentSubmitHandler
 from handlers.user_auth import LoginHandler, LogoutHanlder
 
 url_patterns = [
@@ -20,7 +20,7 @@ url_patterns = [
     (r'/stu_mgr', StudentManagerHandler),
     (r'/stu_mgr/stu_add', AddStudentHandler),
     (r'/stu_mgr/stu_show', ShowStudentHandler),
-
+    (r'/stu_mgr/stu_submit', StudentSubmitHandler),
     # 公共类
     (r'/', IndexHandler),
     (r'/getStuInfoById', GetStuInfoByIdHandler),

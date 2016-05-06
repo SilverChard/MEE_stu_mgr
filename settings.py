@@ -12,8 +12,8 @@ settings = {
     'xsrf_cookies': False,
 }
 
-mysql_db_host = '192.168.1.7'
+mysql_db_host = '127.0.0.1'
 mysql_db_port = 3306
 mysql_db_user = 'root'
-mysql_db_pass = 'silver'
+mysql_db_pass = 'Silver'
 mysql_db_database = 'mee_stu_mgr'

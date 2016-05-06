@@ -18,7 +18,7 @@ def insert_dis(dis_data):
     """
 
     cur = yield database.pool.execute(
-        """INSERT INTO apartment_discipline (`dis_type`, `dis_class`, `others`, `stu_id`, `dis_date`) VALUES (%s, %s, %s,%s,%s);"""
+        """INSERT INTO aprooartment_discipline (`dis_type`, `dis_class`, `others`, `stu_id`, `dis_date`) VALUES (%s, %s, %s,%s,%s);"""
         , (dis_data['type'], dis_data['dis_class'], dis_data['others'], dis_data['stu_id'], dis_data['dis_date']))
     rs = database.cur_to_dict(cur)
     raise gen.Return(rs)
