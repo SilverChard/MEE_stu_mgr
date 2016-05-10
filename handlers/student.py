@@ -4,9 +4,10 @@ from tornado import gen
 
 from handlers.base import BaseHandler
 from services.student import student_service
+from services.student.student_service import get_stu
 
 
-class StudentManagerHandler(BaseHandler):
+class StudentIndexHandler(BaseHandler):
     @gen.coroutine
     @tornado.web.authenticated
     def get(self, *args, **kwargs):
@@ -25,6 +26,20 @@ class ShowStudentHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self, *args, **kwargs):
         self.render("/student/stu_show.html")
+
+
+class GetStudentHandler(BaseHandler):
+    @gen.coroutine
+    @tornado.web.authenticated
+    def post(self, *args, **kwargs):
+        info = {'stu_id_filter': self.get_argument('stu_id_filter'),
+                'stu_sex_filter': self.get_argument('stu_sex_filter'),
+                'stu_room_filter': self.get_argument('stu_room_filter'),
+                'stu_nation_filter': self.get_argument('stu_nation_filter'),
+                'stu_adr_id_filter': self.get_argument('stu_adr_id_filter'),
+                'stu_class_filter': self.get_argument('stu_class_filter')
+                }
+        res = yield get_stu(stu_info=info)
 
 
 class StudentSubmitHandler(BaseHandler):
@@ -76,4 +91,3 @@ class StudentSubmitHandler(BaseHandler):
 
         res = yield student_service.add_stu(stu_info)
         self.write_json({'success': True, 'message': res})
-

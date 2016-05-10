@@ -3,7 +3,6 @@ from tornado import gen
 from tornado_mysql import IntegrityError
 
 import database
-from services import helper_service
 
 
 @gen.coroutine
@@ -51,10 +50,21 @@ def add_stu(stu_info):
             `stu_parent_name_vice`,`stu_parent_relation_vice`,`stu_parent_tel_vice`)
             VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);
             """, (stu_info['stu_id'], stu_info['stu_name'],
-                stu_info['stu_sex'], stu_info['stu_room'], stu_info['stu_cid'], stu_info['stu_tel'], stu_info['stu_nation'],
-                stu_info['stu_adr'], stu_info['stu_class'], stu_info['stu_parent_name'], stu_info['stu_parent_relation'], stu_info[
-                'stu_parent_tel'], stu_info['stu_parent_name_vice'], stu_info['stu_parent_relation_vice'], stu_info['stu_parent_tel_vice']
-            ))
+                  stu_info['stu_sex'], stu_info['stu_room'], stu_info['stu_cid'], stu_info['stu_tel'],
+                  stu_info['stu_nation'],
+                  stu_info['stu_adr'], stu_info['stu_class'], stu_info['stu_parent_name'],
+                  stu_info['stu_parent_relation'], stu_info[
+                                                                'stu_parent_tel'], stu_info['stu_parent_name_vice'],
+                  stu_info['stu_parent_relation_vice'], stu_info['stu_parent_tel_vice']
+                  ))
     except IntegrityError:
         raise gen.Return('已有该学生')
     raise gen.Return('添加成功')
+
+
+@gen.coroutine
+def get_stu(stu_info):
+    for it in stu_info:
+        if stu_info[it] != "0":
+            stu_info[it]
+            it
