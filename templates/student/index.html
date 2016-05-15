@@ -2,4 +2,38 @@
 <%block name="content">
     <h1 class="mdl-typography--text-center">欢迎进入学生信息管理</h1>
     <p class="mdl-typography--text-center mdl-color-text--red">请选取左侧选单选择功能</p>
+    <div id="test_zone">
+        <div class="mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="text" id="sample1">
+            <label class="mdl-textfield__label" for="sample1">Text...</label>
+        </div>
+
+
+    </div>
+</%block>
+
+<%block name="js">
+    <script>
+        function onload_init() {
+            var test_button = document.createElement('button');
+            test_button.id = 'button1';
+            test_button.innerHTML = 'T';
+            test_button.classList.add('mdl-button');
+            test_button.classList.add('mdl-js-button');
+            test_button.classList.add('mdl-button--icon');
+            test_button.classList.add('mdl-button--colored');
+            document.getElementById('test_zone').appendChild(test_button);
+            document.getElementById('test_zone').classList.add('mdl-typography--text-center');
+            var tooltip_div = document.createElement('div');
+            tooltip_div.classList.add('mdl-tooltip');
+            tooltip_div.innerHTML = 'just for test';
+            tooltip_div.setAttribute('for', 'button1');
+            document.getElementById('test_zone').appendChild(tooltip_div);
+            componentHandler.upgradeElement(tooltip_div);
+
+        }
+
+    </script>
+</%block>
+<%block name='css'>
 </%block>

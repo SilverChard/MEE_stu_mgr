@@ -7,7 +7,7 @@ from handlers.holiday import HolidayIndexHandler
 from handlers.index import IndexHandler
 from handlers.stu_class import ClassIndexHandler
 from handlers.student import StudentIndexHandler, AddStudentHandler, ShowStudentHandler, StudentSubmitHandler, \
-    GetStudentHandler
+    GetStudentHandler, DownloadStudentInfoHandler
 from handlers.user_auth import LoginHandler, LogoutHanlder
 
 url_patterns = [
@@ -35,6 +35,7 @@ url_patterns = [
     (r'/stu_mgr/stu_show', ShowStudentHandler),
     (r'/stu_mgr/stu_submit', StudentSubmitHandler),
     (r'/stu_mgr/get_stu', GetStudentHandler),
+    (r'/stu_mgr/download_stu_info' , DownloadStudentInfoHandler),
 
     # 公共类
     (r'/', IndexHandler),

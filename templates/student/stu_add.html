@@ -11,13 +11,13 @@
 
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label cus_input_div" id="stu_id_div">
                 <input class="mdl-textfield__input" type="text" pattern="^\d{8}$" id="stu_id"/>
-                <label class="mdl-textfield__label" for="stu_id">请输入学生学号</label>
+                <label class="mdl-textfield__label" for="stu_id">学号</label>
                 <span class="mdl-textfield__error">学号为8位纯数字</span>
             </div>
 
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label  cus_input_div" id="stu_name_div">
                 <input class="mdl-textfield__input" type="text" pattern="^.*$" id="stu_name"/>
-                <label class="mdl-textfield__label" for="stu_name">请输入学生姓名</label>
+                <label class="mdl-textfield__label" for="stu_name">姓名</label>
                 <span class="mdl-textfield__error">姓名不能为空</span>
             </div>
 
@@ -28,7 +28,7 @@
                     <option value="男">男</option>
                     <option value="女">女</option>
                 </select>
-                <label for="stu_sex" class="mdl-selectfield__label">学生性别</label>
+                <label for="stu_sex" class="mdl-selectfield__label">性别</label>
                 <span class="mdl-selectfield__error">请选择学生的性别</span>
             </div>
 
@@ -97,13 +97,13 @@
                     <option>珞巴族</option>
                     <option>塔塔尔族</option>
                 </select>
-                <label for="stu_nation" class="mdl-selectfield__label">学生民族</label>
+                <label for="stu_nation" class="mdl-selectfield__label">民族</label>
                 <span class="mdl-selectfield__error">请选择学生的民族</span>
             </div>
 
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label  cus_input_div" id="stu_tel_div">
                 <input class="mdl-textfield__input" type="text" pattern="^.*$" id="stu_tel"/>
-                <label class="mdl-textfield__label" for="stu_tel">学生联系方式</label>
+                <label class="mdl-textfield__label" for="stu_tel">联系方式</label>
                 <span class="mdl-textfield__error"></span>
             </div>
 
@@ -116,7 +116,7 @@
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label cus_input_div"
                  style="width:165px" id="stu_cid_div">
                 <input class="mdl-textfield__input" type="text" pattern="^.*$" id="stu_cid"/>
-                <label class="mdl-textfield__label" for="stu_cid">学生身份证号</label>
+                <label class="mdl-textfield__label" for="stu_cid">身份证号</label>
                 <span class="mdl-textfield__error">请输入正确的18位身份证号</span>
             </div>
             <br>
@@ -124,11 +124,31 @@
 
             ##             学生家庭住址
 
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label cus_input_div" style="width:600px"
-                 id="stu_adr_div">
-                <input class="mdl-textfield__input" type="text" pattern="^.*$" id="stu_adr"/>
-                <label class="mdl-textfield__label" for="stu_adr">学生家庭住址</label>
-                <span class="mdl-textfield__error"></span>
+            <div>
+                <div id="stu_adr_picker">
+                    <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label cus_input_div">
+                        <select id="stu_province" class="mdl-selectfield__select"></select>
+                        <label for="stu_province" class="mdl-selectfield__label">省</label>
+                        <span class="mdl-selectfield__error">请选择所在省份</span>
+                    </div>
+                    <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label cus_input_div">
+                        <select id="stu_city" class="mdl-selectfield__select"></select>
+                        <label for="stu_city" class="mdl-selectfield__label">市</label>
+                        <span class="mdl-selectfield__error">请选择所在市区</span>
+                    </div>
+                    <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label cus_input_div">
+                        <select id="stu_zone" class="mdl-selectfield__select"></select>
+                        <label for="stu_zone" class="mdl-selectfield__label">区</label>
+                        <span class="mdl-selectfield__error">请选择所在区</span>
+                    </div>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label cus_input_div"
+                     style="width:300px"
+                     id="stu_adr_div">
+                    <input class="mdl-textfield__input" type="text" pattern="^.*$" id="stu_adr"/>
+                    <label class="mdl-textfield__label" for="stu_adr">街道住址</label>
+                    <span class="mdl-textfield__error"></span>
+                </div>
             </div>
             <br>
 
@@ -274,6 +294,7 @@
             var stu_nation = document.getElementById('stu_nation').valueOf().value;
             var stu_tel = document.getElementById('stu_tel').valueOf().value;
             var stu_cid = document.getElementById('stu_cid').valueOf().value;
+            var stu_adr_id = document.getElementById('stu_zone').options[document.getElementById('stu_zone').selectedIndex].getAttribute("data-code");
             var stu_adr = document.getElementById('stu_adr').valueOf().value;
             var stu_class = document.getElementById('stu_class').valueOf().value;
             var stu_room = document.getElementById('stu_room').valueOf().value;
@@ -283,13 +304,14 @@
             var stu_parent_name_2 = document.getElementById('stu_parent_name2').valueOf().value;
             var stu_parent_relation_2 = document.getElementById('stu_parent_relation2').valueOf().value;
             var stu_parent_tel_2 = document.getElementById('stu_parent_tel2').valueOf().value;
+
             var id_reg = /^\d{8}$/;
             var cid_reg = /^\d{18}$/;
             var printMsg = document.querySelector('#show_msg');
             //如果监护人信息全填
-            if ((stu_parent_name_1 != "" && stu_parent_relation_1 != "" && stu_parent_tel_1 != "") || (stu_parent_name_2 != "" && stu_parent_relation_2 != "" && stu_parent_tel_2 != "")) {
+            if (( stu_parent_name_1 != "" && stu_parent_relation_1 != "" && stu_parent_tel_1 != "") || (stu_parent_name_2 != "" && stu_parent_relation_2 != "" && stu_parent_tel_2 != "")) {
                 //如果所有基本信息全填
-                if (stu_id != "" && id_reg.test(stu_id) && stu_name != "" && stu_sex != "" && stu_nation != "" && stu_tel != "" && stu_cid != "" && cid_reg.test(stu_cid) && stu_adr != "" && stu_class != "" && stu_room != "" && ((stu_room != "" && (stu_room != 'others' || stu_room_new != "")) && (stu_class != "" && (stu_class != 'others' || document.getElementById('stu_class_new').valueOf().value != "")))) {
+                if (stu_adr_id != "" && stu_id != "" && id_reg.test(stu_id) && stu_name != "" && stu_sex != "" && stu_nation != "" && stu_tel != "" && stu_cid != "" && cid_reg.test(stu_cid) && stu_adr != "" && stu_class != "" && stu_room != "" && ((stu_room != "" && (stu_room != 'others' || stu_room_new != "")) && (stu_class != "" && (stu_class != 'others' || document.getElementById('stu_class_new').valueOf().value != "")))) {
                     var ajax_data = {
                         'stu_id': stu_id,
                         'stu_name': stu_name,
@@ -297,6 +319,7 @@
                         'stu_nation': stu_nation,
                         'stu_tel': stu_tel,
                         'stu_cid': stu_cid,
+                        'stu_adr_id': stu_adr_id,
                         'stu_adr': stu_adr,
                         'stu_class': stu_class,
                         'stu_room': stu_room
@@ -352,6 +375,12 @@
                         document.getElementById('stu_sex_div').classList.add('is-invalid');
                     if (stu_nation == "")
                         document.getElementById('stu_nation_div').classList.add('is-invalid');
+                    if (document.getElementById('stu_city').valueOf().value == "")
+                        document.getElementById('stu_city').parentNode.classList.add('is-invalid');
+                    if (document.getElementById('stu_province').valueOf().value == "")
+                        document.getElementById('stu_province').parentNode.classList.add('is-invalid');
+                    if (stu_adr_id == "")
+                        document.getElementById('stu_zone').parentNode.classList.add('is-invalid');
                     if (stu_tel == "")
                         document.getElementById('stu_tel_div').classList.add('is-invalid');
                     if (stu_cid == "" || !cid_reg.test(stu_cid))
@@ -421,6 +450,10 @@
         }
 
         function onload_init() {
+            $('#stu_adr_picker').distpicker({
+                autoSelect: false
+            });
+
             get_room();
             get_class();
         }
@@ -450,6 +483,9 @@
             }
         }
 
+        function reset_fun(){
+            location.reload();
+        }
 
     </script>
 </%block>

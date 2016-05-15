@@ -40,21 +40,21 @@ def add_stu(stu_info):
             "stu_parent_name_bak": stu_parent_name_bak,
             "stu_parent_relation_bak": stu_parent_relation_bak,
             "stu_parent_tel_bak": stu_parent_tel_bak
+            "stu_adr_id": stu_adr_id
         }
     """
     try:
         cur = yield database.pool.execute("""
             INSERT INTO student_info(`stu_id`,`stu_name`,`stu_sex`,`stu_room`,`stu_cid`,
-            `stu_tel`,`stu_nation`,stu_adr,`stu_class`,
+            `stu_tel`,`stu_nation`,`stu_adr_id`,stu_adr,`stu_class`,
             `stu_parent_name`,`stu_parent_relation`,`stu_parent_tel`,
             `stu_parent_name_vice`,`stu_parent_relation_vice`,`stu_parent_tel_vice`)
-            VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);
+            VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);
             """, (stu_info['stu_id'], stu_info['stu_name'],
                   stu_info['stu_sex'], stu_info['stu_room'], stu_info['stu_cid'], stu_info['stu_tel'],
                   stu_info['stu_nation'],
-                  stu_info['stu_adr'], stu_info['stu_class'], stu_info['stu_parent_name'],
-                  stu_info['stu_parent_relation'], stu_info[
-                                                                'stu_parent_tel'], stu_info['stu_parent_name_vice'],
+                  stu_info['stu_adr_id'], stu_info['stu_adr'], stu_info['stu_class'], stu_info['stu_parent_name'],
+                  stu_info['stu_parent_relation'], stu_info['stu_parent_tel'], stu_info['stu_parent_name_vice'],
                   stu_info['stu_parent_relation_vice'], stu_info['stu_parent_tel_vice']
                   ))
     except IntegrityError:
@@ -64,7 +64,39 @@ def add_stu(stu_info):
 
 @gen.coroutine
 def get_stu(stu_info):
+    """
+
+    :param stu_info:{
+            "stu_id": int(stu_id),
+            "stu_name": stu_name,
+            "stu_sex": stu_sex,
+            "stu_nation": stu_nation,
+            "stu_tel": stu_tel,
+            "stu_cid": stu_cid,
+            "stu_adr": stu_adr,
+            "stu_room": int(stu_room),
+            "stu_class": int(stu_class),
+            "stu_parent_name": stu_parent_name,
+            "stu_parent_relation": stu_parent_relation,
+            "stu_parent_tel": stu_parent_tel,
+            "stu_parent_name_vice": stu_parent_name_vice,
+            "stu_parent_relation_vice": stu_parent_relation_vice,
+            "stu_parent_tel_vice": stu_parent_tel_vice
+            "0" means no filter
+        }
+    :return: res: raised res of student
+    """
+
+    sql_str = 'SELECT  stu_name,stu_id,stu_sex,room_name AS stu_room,stu_room AS stu_room_id,stu_class AS stu_class_id,stu_cid,stu_tel, stu_nation, stu_adr_id ,stu_adr,class_name AS stu_class , stu_parent_name , stu_parent_relation , stu_parent_tel,stu_parent_name_vice ,stu_parent_relation_vice,stu_parent_tel_vice FROM `student_info` , `student_class`,`student_room` WHERE student_class.id = student_info.stu_class AND student_room.id = student_info.stu_room'
     for it in stu_info:
         if stu_info[it] != "0":
-            stu_info[it]
-            it
+            sql_str += " AND (`"
+            sql_str += it
+            sql_str += '` LIKE "'
+            sql_str += "%s" % stu_info[it]
+            sql_str += '%")'
+
+    sql_str += " ORDER BY stu_id;"
+    cur = yield database.pool.execute(sql_str)
+    res = database.cur_to_dict(cur)
+    raise gen.Return(res)

@@ -6,122 +6,114 @@
 <%block name="content">
     <div class="mdl-typography--text-center" onload="">
 
-        <table class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp mdl-typography--text-center"
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-typography--text-center"
                style="margin: auto">
             <thead>
             <tr>
+                ##          表头
+                ##                 姓名
+
                 <th style="padding-bottom: 10px;">姓名</th>
-                <th>
-                    <div class="mdl-textfield mdl-js-textfield" style="font-size: small;padding: 0;width: 80px;"><label
-                            for="stu_id">学号</label>
-                        <div class="mdl-textfield__expandable-holder" style="margin:0;padding: 0"><input
-                                class="mdl-textfield__input" type="text" id="stu_id" onchange="TableChange()"></div>
+
+
+                ##                 学号
+
+                <th style="text-align:right;">
+                    <div class="mdl-textfield mdl-js-textfield" style="font-size: small;padding: 0;width: 80px;">
+                        <label id="stu_id_label" for="stu_id">学号</label>
+                        <div class="mdl-textfield__expandable-holder" style="margin:0;padding: 0">
+                            <input class="mdl-textfield__input" type="text" id="stu_id" onchange="tableChange()"></div>
+                        <div class="mdl-tooltip" for="stu_id_label">
+                            单击按学号筛选
+                        </div>
                     </div>
                 </th>
-                <th style="padding-bottom: 10px;">
-                    <select id="stu_sex" onchange="TableChange()">
+
+
+                ##                 性别
+
+                <th style="padding-bottom: 12px;">
+                    <select id="stu_sex" onchange="tableChange()" class="table_input_right">
                         <option value="0">性别</option>
-                        <option value="1">男</option>
-                        <option value="2">女</option>
+                        <option>男</option>
+                        <option>女</option>
                     </select>
                 </th>
 
-                <th style="padding-bottom: 10px;">
-                    <select id="stu_room" onchange="TableChange()">
+
+                ##                 宿舍
+
+                <th style="padding-bottom: 12px;">
+                    <select id="stu_room" onchange="tableChange()" class="table_input_right">
                         <option value="0">学生宿舍</option>
                     </select>
-
                 </th>
+
+                ##                 身份证号
 
                 <th style="padding-bottom: 10px;">
                     学生身份证号
                 </th>
+
+                ##                 学生电话
+
                 <th style="padding-bottom: 10px;">
                     学生电话
                 </th>
-                <th style="padding-bottom: 10px;">
-                    <select id="stu_nation" onchange="TableChange()">
+
+                ##                 学生民族
+
+                <th style="padding-bottom: 12px;">
+                    <select id="stu_nation" onchange="tableChange()" class="table_input_right">
                         <option value="0">学生民族</option>
-                        <option>汉族</option>
-                        <option>壮族</option>
-                        <option>回族</option>
-                        <option>满族</option>
-                        <option>维吾尔族</option>
-                        <option>苗族</option>
-                        <option>彝族</option>
-                        <option>土家族</option>
-                        <option>藏族</option>
-                        <option>蒙古族</option>
-                        <option>侗族</option>
-                        <option>布依族</option>
-                        <option>瑶族</option>
-                        <option>白族</option>
-                        <option>朝鲜族</option>
-                        <option>哈尼族</option>
-                        <option>黎族</option>
-                        <option>哈萨克族</option>
-                        <option>傣族</option>
-                        <option>畲族</option>
-                        <option>傈僳族</option>
-                        <option>东乡族</option>
-                        <option>仡佬族</option>
-                        <option>拉祜族</option>
-                        <option>佤族</option>
-                        <option>水族</option>
-                        <option>纳西族</option>
-                        <option>羌族</option>
-                        <option>土族</option>
-                        <option>仫佬族</option>
-                        <option>锡伯族</option>
-                        <option>柯尔克孜族</option>
-                        <option>景颇族</option>
-                        <option>达斡尔族</option>
-                        <option>撒拉族</option>
-                        <option>布朗族</option>
-                        <option>毛南族</option>
-                        <option>塔吉克族</option>
-                        <option>普米族</option>
-                        <option>阿昌族</option>
-                        <option>怒族</option>
-                        <option>鄂温克族</option>
-                        <option>京族</option>
-                        <option>基诺族</option>
-                        <option>德昂族</option>
-                        <option>保安族</option>
-                        <option>俄罗斯族</option>
-                        <option>裕固族</option>
-                        <option>乌兹别克族</option>
-                        <option>门巴族</option>
-                        <option>鄂伦春族</option>
-                        <option>独龙族</option>
-                        <option>赫哲族</option>
-                        <option>高山族</option>
-                        <option>珞巴族</option>
-                        <option>塔塔尔族</option>
                     </select>
                 </th>
-                <th style="padding-bottom: 10px;">
-                    <div id="stu_adr_picker" onchange="TableChange()">
-                        <select></select>
-                        <select></select>
-                        <select></select>
+
+                ##                 地址
+
+                <th style="padding-bottom: 12px;">
+                    <div id="stu_adr_picker" onchange="tableChange()" style="float: right;">
+                        <select class="table_input_left"></select>
+                        <select class="table_input_left"></select>
+                        <select class="table_input_left"></select>
                     </div>
                 </th>
-                <th style="padding-bottom: 10px;">
-                    <select id="stu_class" onchange="TableChange()">
+
+                ##                 班级
+
+                <th style="padding-bottom: 12px;">
+                    <select id="stu_class" onchange="tableChange()" class="table_input_right">
                         <option value="0">学生班级</option>
                     </select>
                 </th>
+
+                ##                 监护人信息
+
                 <th style="padding-bottom: 10px;">
                     监护人联系方式
                 </th>
+
+                ##                 操作部分
+
+                <th style="padding-bottom: 10px;text-align:center;">
+                    操作
+                </th>
             </tr>
             </thead>
+
             <tbody id="table_body">
 
 
             </tbody>
         </table>
+    </div>
+    <div class="mdl-typography--text-center" style="margin-top: 50px">
+
+        <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" id="download_excel">
+            <i class="material-icons">archive</i>
+        </button>
+        <div>导出学生信息excel表格</div>
+
     </div>
 
 
@@ -132,51 +124,675 @@
 
 
     <script>
+        var all_nation = ['汉族', '壮族', '回族', '满族', '维吾尔族', '苗族', '彝族', '土家族', '藏族', '蒙古族', '侗族', '布依族', '瑶族', '白族', '朝鲜族', '哈尼族', '黎族', '哈萨克族', '傣族', '畲族', '傈僳族', '东乡族', '仡佬族', '拉祜族', '佤族', '水族', '纳西族', '羌族', '土族', '仫佬族', '锡伯族', '柯尔克孜族', '景颇族', '达斡尔族', '撒拉族', '布朗族', '毛南族', '塔吉克族', '普米族', '阿昌族', '怒族', '鄂温克族', '京族', '基诺族', '德昂族', '保安族', '俄罗斯族', '裕固族', '乌兹别克族', '门巴族', '鄂伦春族', '独龙族', '赫哲族', '高山族', '珞巴族', '塔塔尔族'];
+
+        function init_nation(nation_obj) {
+            for (var it in all_nation) {
+                var op = document.createElement('option');
+                op.innerHTML = all_nation[it];
+                op.setAttribute('value', all_nation[it]);
+                nation_obj.appendChild(op);
+            }
+
+        }
+
+        $('#download_excel').click(
+                function () {
+                    window.open("/stu_mgr/download_stu_info");
+                });
+
+
         function onload_init() {
-            $("#stu_adr_picker").distpicker('reset', true);
+
+            $('#stu_adr_picker').distpicker({
+                autoSelect: false
+            });
+            var class_info = get_class();
+            for (var it in class_info) {
+                var option = document.createElement("option");
+                option.value = class_info[it].id;
+                option.innerHTML = class_info[it].class_name;
+                document.getElementById('stu_class').valueOf().appendChild(option);
+            }
+
+            var room_info = get_room();
+            for (var it in room_info) {
+                var option = document.createElement("option");
+                option.value = room_info[it].id;
+                option.innerHTML = room_info[it].room_name;
+                document.getElementById('stu_room').valueOf().appendChild(option);
+            }
+
+            var stu_nation_obj = document.getElementById('stu_nation');
+            init_nation(stu_nation_obj);
+            getTable();
         }
 
 
-        function TableChange() {
+        function tableChange() {
+            getTable();
+        }
+
+
+        function getTable() {
+
             var stu_id_filter = document.getElementById('stu_id').valueOf().value;
             var stu_sex_filter = document.getElementById('stu_sex').valueOf().value;
             var stu_room_filter = document.getElementById('stu_room').valueOf().value;
             var stu_nation_filter = document.getElementById('stu_nation').valueOf().value;
-            var stu_adr_id_filter = document.getElementById('stu_adr_picker').children[2].options[document.getElementById('stu_adr_picker').children[2].selectedIndex].getAttribute("data-code");
             var stu_class_filter = document.getElementById('stu_class').valueOf().value;
+            var stu_adr_id_filter = "0";
+            for (var i = 0; i < 3; ++i) {
+                var stu_adr_picker_value = document.getElementById('stu_adr_picker').children[i].options[document.getElementById('stu_adr_picker').children[i].selectedIndex].getAttribute("data-code");
+                if (stu_adr_picker_value != "")
+                    stu_adr_id_filter = stu_adr_picker_value;
+            }
+
             if (stu_id_filter == "")
                 stu_id_filter = "0";
-            if (stu_adr_id_filter == "")
-                stu_adr_id_filter = "0";
+
             $.ajax({
                 url: '/stu_mgr/get_stu',
-                dataType: 'json',
+                dataType: "json",
                 type: 'post',
                 data: {
-                    'stu_id': stu_id_filter,
-                    'stu_sex': stu_sex_filter,
-                    'stu_room': stu_room_filter,
-                    'stu_nation': stu_nation_filter,
-                    'stu_adr_id': stu_adr_id_filter,
-                    'stu_class': stu_class_filter
+                    'stu_id_filter': stu_id_filter,
+                    'stu_sex_filter': stu_sex_filter,
+                    'stu_room_filter': stu_room_filter,
+                    'stu_nation_filter': stu_nation_filter,
+                    'stu_adr_id_filter': stu_adr_id_filter,
+                    'stu_class_filter': stu_class_filter
                 },
+
                 success(data){
+                    document.getElementById('table_body').innerHTML = "";
+                    for (var it in data.res) {
+
+                        // new_tr 为表格一行
+                        var new_tr = document.createElement('tr');
+                        document.getElementById('table_body').appendChild(new_tr);
+
+                        // new_tr id ：tr******** (******** 为一个新学号)
+
+                        new_tr.id = "tr".concat(data.res[it].stu_id);
+
+                        // td为一个单元格 给单元格赋值（来自data.res） 并且将td接在new_tr下面
+                        var td = document.createElement('td');
+                        td.innerHTML = data.res[it].stu_name;
+                        new_tr.appendChild(td);
+
+                        td = document.createElement('td');
+                        td.innerHTML = data.res[it].stu_id;
+                        new_tr.appendChild(td);
+
+                        td = document.createElement('td');
+                        td.innerHTML = data.res[it].stu_sex;
+                        new_tr.appendChild(td);
+
+                        td = document.createElement('td');
+                        td.setAttribute('stu_room_id', data.res[it].stu_room_id);
+                        td.innerHTML = data.res[it].stu_room;
+                        new_tr.appendChild(td);
+
+
+                        td = document.createElement('td');
+                        td.innerHTML = data.res[it].stu_cid;
+                        new_tr.appendChild(td);
+
+
+                        td = document.createElement('td');
+                        td.innerHTML = data.res[it].stu_tel;
+                        new_tr.appendChild(td);
+
+
+                        td = document.createElement('td');
+                        td.innerHTML = data.res[it].stu_nation;
+                        new_tr.appendChild(td);
+
+                        // 根据stu_adr_id 提取出city_id province_id两个数据 根据这三个数据取出对应的地址(省市区)
+                        // 注意 此处使用try 防止地址id错误
+                        var dis = data.res[it].stu_adr_id.toString();
+                        var city = dis.substr(0, 4);
+                        city = city.concat("00");
+                        var province = city.substring(0, 2);
+                        province = province.concat("0000");
+
+                        try {
+                            var string_of_id = "";
+                            string_of_id = ChineseDistricts["86"][province];
+                            if (ChineseDistricts[province][city] != undefined) {
+                                string_of_id = string_of_id.concat(ChineseDistricts[province][city]);
+                            }
+                            if (ChineseDistricts[city][dis] != undefined) {
+                                string_of_id = string_of_id.concat(ChineseDistricts[city][dis]);
+                            }
+                            if (data.res[it].stu_adr != "" && data.res[it].stu_adr != null) {
+                                string_of_id = string_of_id.concat("    ", data.res[it].stu_adr);
+                            }
+
+                        } catch (TypeError) {
+                            string_of_id = string_of_id.concat("地址不可读    ", data.res[it].stu_adr);
+                        }
+
+                        td = document.createElement('td');
+                        td.setAttribute('adr_id', dis);
+                        td.setAttribute('adr', data.res[it].stu_adr == null ? "" : data.res[it].stu_adr);
+                        td.innerHTML = string_of_id;
+                        new_tr.appendChild(td);
+
+                        td = document.createElement('td');
+                        td.innerHTML = data.res[it].stu_class;
+                        td.setAttribute('stu_class_id', data.res[it].stu_class_id);
+                        new_tr.appendChild(td);
+
+                        // 关系 名称 联系方式 齐全的为主联系人 有限输出另外一个为不齐全的
+
+                        var parent_str = "";
+                        td = document.createElement('td');
+                        if (data.res[it].stu_parent_relation != "" && data.res[it].stu_parent_relation != null) {
+                            parent_str = parent_str.concat(data.res[it].stu_parent_relation, ":", data.res[it].stu_parent_name, "(", data.res[it].stu_parent_tel, ")  ");
+
+                            td.setAttribute('parent_name', data.res[it].stu_parent_name);
+                            td.setAttribute('parent_relation', data.res[it].stu_parent_relation);
+                            td.setAttribute('parent_tel', data.res[it].stu_parent_tel);
+
+                            td.setAttribute('parent_name_vice', data.res[it].stu_parent_name_vice);
+                            td.setAttribute('parent_relation_vice', data.res[it].stu_parent_relation_vice);
+                            td.setAttribute('parent_tel_vice', data.res[it].stu_parent_tel_vice);
+                        }
+                        if (data.res[it].stu_parent_relation_vice != "" && data.res[it].stu_parent_relation_vice != null) {
+                            parent_str = parent_str.concat(data.res[it].stu_parent_relation_vice, ":", data.res[it].stu_parent_name_vice, "(", data.res[it].stu_parent_tel_vice, ")");
+                        }
+
+                        td.innerHTML = parent_str;
+                        new_tr.appendChild(td);
+
+                        var tools_button = document.createElement('button');
+                        tools_button.id = 'edit'.concat(data.res[it].stu_id);
+                        tools_button.className = 'mdl-button mdl-js-button mdl-button--icon mdl-button--colored';
+                        tools_button.setAttribute('onclick', 'info_change(tr'.concat(data.res[it].stu_id, ')'));
+
+                        var tools_button_i = document.createElement('i');
+                        tools_button_i.className = 'icon material-icons md-18';
+                        tools_button_i.innerHTML = 'mode_edit';
+                        tools_button.appendChild(tools_button_i);
+
+                        var div_for_edit_tools = document.createElement('div');
+                        div_for_edit_tools.id = 'div_for_edit';
+                        div_for_edit_tools.classList.add('mdl-tooltip');
+                        div_for_edit_tools.setAttribute('for', "edit".concat(data.res[it].stu_id));
+                        div_for_edit_tools.innerHTML = '修改'.concat(data.res[it].stu_name, '的信息');
+
+                        td = document.createElement('td');
+                        td.appendChild(tools_button);
+
+
+                        tools_button = document.createElement('button');
+                        tools_button.id = 'remove'.concat(data.res[it].stu_id);
+                        tools_button.className = "mdl-button mdl-js-button mdl-button--icon mdl-button--colored";
+                        tools_button.setAttribute('onclick', 'info_change(tr'.concat(data.res[it].stu_id, ')'));
+
+                        tools_button_i = document.createElement('i');
+                        tools_button_i.className = 'icon material-icons md-18';
+                        tools_button_i.innerHTML = 'delete';
+
+                        tools_button.appendChild(tools_button_i);
+                        var div_for_del_tools = document.createElement('div');
+                        div_for_del_tools.id = 'div_for_delete';
+                        div_for_del_tools.classList.add('mdl-tooltip');
+                        div_for_del_tools.setAttribute('for', "remove".concat(data.res[it].stu_id));
+                        div_for_del_tools.innerHTML = '删除'.concat(data.res[it].stu_name, '的信息');
+                        td.appendChild(tools_button);
+
+                        td.appendChild(div_for_edit_tools);
+                        td.appendChild(div_for_del_tools);
+
+                        new_tr.appendChild(td);
+                        componentHandler.upgradeElement(new_tr);
+                        componentHandler.upgradeElement(div_for_edit_tools);
+                        componentHandler.upgradeElement(div_for_del_tools);
+
+                        //componentHandler.upgradeElement(new_tr);
+                    }
+                    //var tr_id = 'tr'.concat(data.res[it].stu_id);
+                    componentHandler.upgradeElement(document.getElementById('table_body'));
 
                 }
-            })
+            });
+        }
+
+
+        function info_change(tr_id) {
+            var stu_name_td = tr_id.childNodes[0];
+            var stu_name = stu_name_td.innerHTML;
+
+            var stu_id_td = tr_id.childNodes[1];
+            var stu_id = stu_id_td.innerHTML;
+
+            var stu_sex_td = tr_id.childNodes[2];
+            var stu_sex = stu_sex_td.innerHTML;
+
+            var stu_room_td = tr_id.childNodes[3];
+            var stu_room = stu_room_td.getAttribute('stu_room_id');
+
+            var stu_cid_td = tr_id.childNodes[4];
+            var stu_cid = stu_cid_td.innerHTML;
+
+            var stu_tel_td = tr_id.childNodes[5];
+            var stu_tel = stu_tel_td.innerHTML;
+
+            var stu_nation_td = tr_id.childNodes[6];
+            var stu_nation = stu_nation_td.innerHTML;
+
+            var stu_adr_td = tr_id.childNodes[7];
+            var stu_adr_id = stu_adr_td.getAttribute('adr_id');
+            var stu_adr = stu_adr_td.getAttribute('adr');
+
+            var stu_class_td = tr_id.childNodes[8];
+            var stu_class = stu_class_td.getAttribute('stu_class_id');
+
+            var stu_parent_td = tr_id.childNodes[9];
+            var stu_parent_name = stu_parent_td.getAttribute('parent_name');
+            var stu_parent_relation = stu_parent_td.getAttribute('parent_relation');
+            var stu_parent_tel = stu_parent_td.getAttribute('parent_tel');
+            var stu_parent_name_vice = stu_parent_td.getAttribute('parent_name_vice');
+            var stu_parent_relation_vice = stu_parent_td.getAttribute('parent_relation_vice');
+            var stu_parent_tel_vice = stu_parent_td.getAttribute('parent_tel_vice');
+
+            var tools_td = tr_id.childNodes[10];
+
+            // 修改姓名
+            var new_name = document.createElement('input');
+            new_name.id = 'new_name'.concat(stu_id);
+            new_name.value = stu_name;
+            stu_name_td.innerHTML = '';
+            stu_name_td.appendChild(new_name);
+            new_name.className = "table_input_right";
+            new_name.style.width = "40px";
+
+
+            // 修改学号
+            var new_id = document.createElement('input');
+            new_id.id = 'new_id'.concat(stu_id);
+            new_id.value = stu_id;
+            stu_id_td.innerHTML = '';
+            stu_id_td.appendChild(new_id);
+            new_id.className = 'table_input_right';
+            new_id.style.width = "60px";
+
+            // 修改性别
+            var new_sex = document.createElement('select');
+            new_sex.id = 'new_sex'.concat(stu_id);
+            stu_sex_td.innerHTML = '';
+            stu_sex_td.appendChild(new_sex);
+            new_sex.className = 'table_input_right';
+            // 添加性别选项
+            var op = document.createElement('option');
+            op.innerHTML = '男';
+            new_sex.appendChild(op);
+            if (stu_sex == '男')
+                op.defaultSelected = true;
+            var op = document.createElement('option');
+            op.innerHTML = '女';
+            new_sex.appendChild(op);
+            if (stu_sex == '女')
+                op.defaultSelected = true;
+            new_sex.style.width = "42px";
+
+            // 修改宿舍
+            var new_room = document.createElement('select');
+            new_room.id = 'new_room'.concat(stu_id);
+            stu_room_td.innerHTML = '';
+            stu_room_td.appendChild(new_room);
+            new_room.className = 'table_input_right';
+            // 添加宿舍选项
+            var room_list = get_room();
+            for (var it in room_list) {
+                op = document.createElement('option');
+                op.innerHTML = room_list[it].room_name;
+                op.setAttribute('value', room_list[it].id);
+                if (room_list[it].id == stu_room)
+                    op.defaultSelected = true;
+                new_room.appendChild(op);
+            }
+
+            // 修改身份证号
+            var new_cid = document.createElement('input');
+            new_cid.id = 'new_cid'.concat(stu_id);
+            new_cid.value = stu_cid;
+            stu_cid_td.innerHTML = '';
+            stu_cid_td.appendChild(new_cid);
+            new_cid.className = 'table_input_right';
+            new_cid.style.width = "130px";
+
+            // 修改电话
+            var new_tel = document.createElement('input');
+            new_tel.id = 'new_tel'.concat(stu_id);
+            new_tel.value = stu_tel;
+            stu_tel_td.innerHTML = '';
+            stu_tel_td.appendChild(new_tel);
+            new_tel.className = 'table_input_right';
+            new_tel.style.width = "80px";
+
+            // 修改民族
+            var new_nation = document.createElement('select');
+            new_nation.id = 'new_nation'.concat(stu_id);
+            stu_nation_td.innerHTML = '';
+            stu_nation_td.appendChild(new_nation);
+            new_nation.className = 'table_input_right';
+            // 添加民族选项
+            for (var it in all_nation) {
+                var op = document.createElement('option');
+                op.innerHTML = all_nation[it];
+                op.setAttribute('value', all_nation[it]);
+                if (all_nation[it] == stu_nation)
+                    op.defaultSelected = true;
+                new_nation.appendChild(op);
+            }
+
+            // 修改地区
+            // // 省市区三级联动
+            var new_adr_id = document.createElement('div');
+            new_adr_id.id = 'new_adr_id_picker'.concat(stu_id);
+            for (var i = 0; i < 3; i++) {
+                var new_select = document.createElement('select');
+                new_select.className = 'table_input_right';
+                new_select.style.float = 'left';
+                new_adr_id.appendChild(new_select);
+            }
+            stu_adr_td.innerHTML = '';
+            stu_adr_td.appendChild(new_adr_id);
+            stu_adr_td.appendChild(document.createElement('br'));
+            stu_adr_td.appendChild(document.createElement('br'));
+            // // //设置三级联动的默认值
+            var dis = stu_adr_id.toString();
+            var city = dis.substr(0, 4);
+            city = city.concat("00");
+            var province = city.substring(0, 2);
+            province = province.concat("0000");
+            $("#new_adr_id_picker".concat(stu_id)).distpicker({
+                province: ChineseDistricts["86"][province],
+                city: ChineseDistricts[province][city],
+                district: ChineseDistricts[city][dis]
+            });
+            // // 地址input
+            var new_adr = document.createElement('input');
+            stu_adr_td.appendChild(new_adr);
+            new_adr.id = 'new_adr'.concat(stu_id);
+            new_adr.className = 'table_input_right';
+            new_adr.value = stu_adr;
+            new_adr.style.width = "320px";
+            new_adr.style.textAlign = 'left';
+
+            // 修改班级
+            var new_class = document.createElement('select');
+            new_class.id = 'new_class'.concat(stu_id);
+            stu_class_td.innerHTML = '';
+            stu_class_td.appendChild(new_class);
+            new_class.className = 'table_input_right';
+            // 添加班级选项
+            var class_list = get_class();
+            for (var it in class_list) {
+                op = document.createElement('option');
+                op.innerHTML = class_list[it].class_name;
+                op.setAttribute('value', class_list[it].id);
+                if (class_list[it].id == stu_class)
+                    op.defaultSelected = true;
+                new_class.appendChild(op);
+            }
+
+
+            // 监护人
+            stu_parent_td.innerHTML = '';
+            var parent_1_div = document.createElement('div');
+            stu_parent_td.appendChild(parent_1_div);
+            var parent_2_div = document.createElement('div');
+            stu_parent_td.appendChild(parent_2_div);
+            // 监护人1
+            // 监护人关系
+            var new_parent_relation = document.createElement('select');
+            new_parent_relation.id = 'new_parent_1_relation'.concat(stu_id);
+            new_parent_relation.className = 'table_input_left';
+            new_parent_relation.style.width = "50px";
+            new_parent_relation.style.height = '16px';
+            new_parent_relation.style.marginRight = "10px";
+            parent_1_div.appendChild(new_parent_relation);
+            var parent_option = ['父亲', '母亲', '爷爷', '奶奶', '老爷', '姥姥', '其他']
+            for (var it in parent_option) {
+                op = document.createElement('option');
+                op.setAttribute('value', parent_option[it]);
+                op.innerHTML = parent_option[it];
+
+                new_parent_relation.appendChild(op);
+                if (stu_parent_relation == parent_option[it])
+                    op.defaultSelected = true;
+            }
+            // 监护人姓名
+            var new_parent_name = document.createElement('input');
+            new_parent_name.id = 'new_parent_1_name'.concat(stu_id);
+            new_parent_name.value = stu_parent_name;
+            new_parent_name.className = 'table_input_left';
+            new_parent_name.style.width = "40px";
+            new_parent_name.style.marginRight = "10px";
+            parent_1_div.appendChild(new_parent_name);
+            // 监护人电话
+            var new_parent_tel = document.createElement('input');
+            new_parent_tel.id = 'new_parent_1_tel'.concat(stu_id);
+            new_parent_tel.value = stu_parent_tel;
+            new_parent_tel.className = 'table_input_left';
+            new_parent_tel.style.width = "80px";
+            parent_1_div.appendChild(new_parent_tel);
+            // 监护人2
+            // 监护人关系
+            var new_parent_relation_vice = document.createElement('select');
+            new_parent_relation_vice.id = 'new_parent_2_relation'.concat(stu_id);
+            new_parent_relation_vice.className = 'table_input_left';
+            new_parent_relation_vice.style.width = "50px";
+            new_parent_relation_vice.style.height = '16px';
+            new_parent_relation_vice.style.marginRight = "10px";
+            parent_2_div.appendChild(new_parent_relation_vice);
+            for (var it in parent_option) {
+                op = document.createElement('option');
+                op.setAttribute('value', parent_option[it]);
+                op.innerHTML = parent_option[it];
+
+                new_parent_relation_vice.appendChild(op);
+                if (stu_parent_relation_vice == parent_option[it])
+                    op.defaultSelected = true;
+            }
+            // 监护人姓名
+            var new_parent_name_vice = document.createElement('input');
+            new_parent_name_vice.id = 'new_parent_2_name'.concat(stu_id);
+            new_parent_name_vice.value = stu_parent_name_vice;
+            new_parent_name_vice.className = 'table_input_left';
+            new_parent_name_vice.style.width = "40px";
+            new_parent_name_vice.style.marginRight = "10px";
+            parent_2_div.appendChild(new_parent_name_vice);
+            // 监护人电话
+            var new_parent_tel_vice = document.createElement('input');
+            new_parent_tel_vice.id = 'new_parent_2_tel'.concat(stu_id);
+            new_parent_tel_vice.value = stu_parent_tel_vice;
+            new_parent_tel_vice.className = 'table_input_left';
+            new_parent_tel_vice.style.width = "80px";
+            parent_2_div.appendChild(new_parent_tel_vice);
+
+
+            //  操作部分
+            tools_td.innerHTML = '';
+            //      提交
+            var tools_button = document.createElement('button');
+            var i_of_button = document.createElement('i');
+            var div_for_tools = document.createElement('div');
+            tools_button.appendChild(i_of_button);
+            tools_td.appendChild(tools_button);
+            tools_td.appendChild(div_for_tools);
+            tools_button.id = 'submit_'.concat(stu_id);
+            tools_button.className = "mdl-button mdl-js-button mdl-button--icon mdl-button--colored";
+            tools_button.onclick = function () {
+                var p_tr = this.parentNode.parentNode;
+                var stu_old_id = p_tr.id.substring(2, 10);
+                var stu_name = document.getElementById('new_name'.concat(stu_old_id));
+                var stu_sex = document.getElementById('new_sex'.concat(stu_old_id));
+                var stu_room = document.getElementById('new_room'.concat(stu_old_id));
+                var stu_cid = document.getElementById('new_cid'.concat(stu_old_id));
+                var stu_tel = document.getElementById('new_tel'.concat(stu_old_id));
+                var stu_nation = document.getElementById('new_nation'.concat(stu_old_id));
+                var stu_adr_id = document.getElementById('new_adr_id_picker'.concat(stu_old_id));
+                var stu_adr_id_value = "";
+                for (var i = 0; i < 3; ++i) {
+                    var stu_adr_picker_temp = document.getElementById('new_adr_id_picker'.concat(stu_old_id)).children[i].options[document.getElementById('new_adr_id_picker'.concat(stu_old_id)).children[i].selectedIndex].getAttribute("data-code");
+                    if (stu_adr_picker_temp != "")
+                        stu_adr_id_value = stu_adr_picker_temp;
+                }
+
+                var stu_adr = document.getElementById('new_adr'.concat(stu_old_id));
+                var stu_id = document.getElementById('new_id'.concat(stu_old_id));
+                var stu_class = document.getElementById('new_class'.concat(stu_old_id));
+                var stu_parent_name = document.getElementById('new_parent_1_name'.concat(stu_old_id));
+                var stu_parent_tel = document.getElementById('new_parent_1_tel'.concat(stu_old_id));
+                var stu_parent_relation = document.getElementById('new_parent_1_relation'.concat(stu_old_id));
+                var stu_parent_name_vice = document.getElementById('new_parent_2_name'.concat(stu_old_id));
+                var stu_parent_tel_vice = document.getElementById('new_parent_2_tel'.concat(stu_old_id));
+                var stu_parent_relation_vice = document.getElementById('new_parent_2_relation'.concat(stu_old_id));
+                var flag_of_all_input = true;
+                if (stu_name.value == "") {
+                    stu_name.style.borderBottomColor = '#d50000';
+                    flag_of_all_input = false;
+                }
+                if (stu_cid.value == "") {
+                    stu_cid.style.borderBottomColor = '#d50000';
+                    flag_of_all_input = false;
+                }
+                if (stu_tel.value == "") {
+                    stu_tel.style.borderBottomColor = '#d50000';
+                    flag_of_all_input = false;
+                }
+                if (stu_adr_id_value == "") {
+                    for (var i = 0; i < 3; ++i) {
+                        stu_adr_id.childNodes[i].style.borderBottomColor = '#d50000';
+                    }
+                    flag_of_all_input = false;
+                }
+                if (stu_adr.value == "") {
+                    stu_adr.style.borderBottomColor = '#d50000';
+                    flag_of_all_input = false;
+                }
+                if ((stu_parent_name.value == "" || stu_parent_tel.value == "") && (stu_parent_name_vice.value == "" || stu_parent_tel_vice.value == "")) {
+                    if (stu_parent_name.value == "") {
+                        stu_parent_name.style.borderBottomColor = '#d50000';
+                        flag_of_all_input = false;
+                    }
+                    if (stu_parent_tel.value == "") {
+                        stu_parent_tel.style.borderBottomColor = '#d50000';
+                        flag_of_all_input = false;
+                    }
+                    if (stu_parent_name_vice.value == "") {
+                        stu_parent_name_vice.style.borderBottomColor = '#d50000';
+                        flag_of_all_input = false;
+                    }
+                    if (stu_parent_tel_vice.value == "") {
+                        stu_parent_tel_vice.style.borderBottomColor = '#d50000';
+                        flag_of_all_input = false;
+                    }
+                }
+                if(!flag_of_all_input){
+
+                }
+
+            };
+            i_of_button.className = "icon material-icons md-18";
+            i_of_button.innerHTML = 'check';
+            div_for_tools.className = 'mdl-tooltip';
+            div_for_tools.setAttribute('for', 'submit_'.concat(stu_id));
+            div_for_tools.innerHTML = '提交';
+            componentHandler.upgradeElement(div_for_tools);
+            //      取消
+            tools_button = document.createElement('button');
+            i_of_button = document.createElement('i');
+            div_for_tools = document.createElement('div');
+            tools_button.appendChild(i_of_button);
+            tools_td.appendChild(tools_button);
+            tools_td.appendChild(div_for_tools);
+            tools_button.id = 'cancel_'.concat(stu_id);
+            tools_button.className = "mdl-button mdl-js-button mdl-button--icon mdl-button--colored";
+            tools_button.onclick = function () {
+            };
+            i_of_button.className = "icon material-icons md-18";
+            i_of_button.innerHTML = 'close';
+            div_for_tools.className = 'mdl-tooltip';
+            div_for_tools.setAttribute('for', 'cancel_'.concat(stu_id));
+            div_for_tools.innerHTML = '取消';
+            componentHandler.upgradeElement(div_for_tools);
 
         }
 
+        function get_class() {
+            var res;
+            $.ajax({
+                async: false,
+                url: "/getStuClass",
+                type: "post",
+                dataType: "json",
+                success(data){
+                    res = data.class_info;
+                }
+            });
+            return res;
+        }
+
+
+        function get_room() {
+            var res;
+            $.ajax({
+                async: false,
+                url: '/getStuRoom',
+                type: 'post',
+                dataType: 'json',
+                success(data){
+                    res = data.room_info;
+                }
+            });
+            return res;
+        }
 
     </script>
 </%block>
 
 <%block name="css">
     <style>
+        .material-icons.md-18 {
+            font-size: 18px;
+        }
+
         .cus_input_div {
-            margin-left: 20px;
-            margin-right: 20px;
-            width: 120px
+            width: 40px;
+            height: 31px;
+        }
+
+        .table_input_left {
+            border: none;
+            border-bottom: 1px solid rgba(0, 0, 0, .12);
+            text-align: right;
+            color: inherit;
+            background: 0 0;
+            margin: 0;
+            padding: 0;
+            display: block;
+            font-weight: inherit;
+            float: left;
+        }
+
+        .table_input_right {
+            border: none;
+            border-bottom: 1px solid rgba(0, 0, 0, .12);
+            text-align: right;
+            color: inherit;
+            background: 0 0;
+            margin: 0;
+            padding: 0;
+            display: block;
+            float: right;
+            font-weight: inherit;
         }
     </style>
 </%block>
