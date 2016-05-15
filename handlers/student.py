@@ -32,6 +32,55 @@ class ShowStudentHandler(BaseHandler):
         self.render("/student/stu_show.html")
 
 
+class EditStudentInfoHandler(BaseHandler):
+    @gen.coroutine
+    @tornado.web.authenticated
+    def post(self, *args, **kwargs):
+        """
+            old_stu_id:                 旧学号 用于判断学号是否被修改
+            stu_id:                     新学号
+            stu_name:                   姓名
+            stu_sex:                    性别
+            stu_room:                   宿舍号(id)
+            stu_cid:                    身份证号
+            stu_tel:                    电话号码
+            stu_nation:                 民族
+            stu_adr_id:                 地址_区位号
+            stu_adr:                    地址
+            stu_class:                  班级
+            stu_parent_name:            监护人姓名
+            stu_parent_tel:             监护人电话
+            stu_parent_relation:        监护人关系
+            stu_parent_name_vice:       备用监护人姓名
+            stu_parent_tel_vice:        备用监护人电话
+            stu_parent_relation_vice:   备用监护人关系
+        """
+        id_change_flag = True
+        if self.get_argument('old_stu_id') == self.get_argument('stu_id'):
+            id_change_flag = False
+        stu_info = {
+            'old_stu_id': self.get_argument('old_stu_id'),
+            'stu_id': self.get_argument('stu_id'),
+            'stu_name': self.get_argument('stu_name'),
+            'stu_sex': self.get_argument('stu_sex'),
+            'stu_room': self.get_argument('stu_room'),
+            'stu_cid': self.get_argument('stu_cid'),
+            'stu_tel': self.get_argument('stu_tel'),
+            'stu_nation': self.get_argument('stu_nation'),
+            'stu_adr_id': self.get_argument('stu_adr_id'),
+            'stu_adr': self.get_argument('stu_adr'),
+            'stu_class': self.get_argument('stu_class'),
+            'stu_parent_name': self.get_argument('stu_parent_name'),
+            'stu_parent_tel': self.get_argument('stu_parent_tel'),
+            'stu_parent_relation': self.get_argument('stu_parent_relation'),
+            'stu_parent_name_vice': self.get_argument('stu_parent_name_vice'),
+            'stu_parent_tel_vice': self.get_argument('stu_parent_tel_vice'),
+            'stu_parent_relation_vice': self.get_argument('stu_parent_relation_vice')
+        }
+        student_service.edit_stu(id_change_flag=id_change_flag, stu_info=stu_info)
+        self.write_json({'success':True})
+
+
 class DownloadStudentInfoHandler(BaseHandler):
     @gen.coroutine
     @tornado.web.authenticated

@@ -37,9 +37,9 @@ def add_stu(stu_info):
             "stu_parent_name": stu_parent_name,
             "stu_parent_relation": stu_parent_relation,
             "stu_parent_tel": stu_parent_tel,
-            "stu_parent_name_bak": stu_parent_name_bak,
-            "stu_parent_relation_bak": stu_parent_relation_bak,
-            "stu_parent_tel_bak": stu_parent_tel_bak
+            "stu_parent_name_vice": stu_parent_name_bak,
+            "stu_parent_relation_vice": stu_parent_relation_bak,
+            "stu_parent_tel_vice": stu_parent_tel_bak
             "stu_adr_id": stu_adr_id
         }
     """
@@ -94,9 +94,45 @@ def get_stu(stu_info):
             sql_str += it
             sql_str += '` LIKE "'
             sql_str += "%s" % stu_info[it]
-            sql_str += '%")'
+            if it == 'stu_room' or it == 'stu_class':
+                sql_str += '")'
+            else:
+                sql_str += '%")'
 
     sql_str += " ORDER BY stu_id;"
     cur = yield database.pool.execute(sql_str)
     res = database.cur_to_dict(cur)
     raise gen.Return(res)
+
+
+@gen.coroutine
+def edit_stu(id_change_flag, stu_info):
+    if id_change_flag:
+        cur = yield database.pool.execute("DELETE FROM mee_stu_mgr.student_info WHERE stu_id=%s;",
+                                          stu_info['old_stu_id'])
+        add_stu(stu_info)
+    else:
+        cur = yield database.pool.execute(
+            """UPDATE `mee_stu_mgr`.`student_info` SET
+                    `stu_name`=%s,
+                    `stu_sex`=%s ,
+                    `stu_room`=%s,
+                    `stu_cid`=%s ,
+                    `stu_tel`=%s ,
+                    `stu_nation`=%s ,
+                    `stu_adr_id`=%s,
+                    `stu_adr`=%s ,
+                    `stu_class`=%s,
+                    `stu_parent_name`=%s ,
+                    `stu_parent_tel`=%s,
+                    `stu_parent_relation`=%s,
+                    `stu_parent_name_vice`=%s,
+                    `stu_parent_tel_vice`=%s,
+                    `stu_parent_relation_vice`=%s
+                    WHERE `stu_id`=%s;""",
+            (stu_info['stu_name'], stu_info['stu_sex'], stu_info['stu_room'], stu_info['stu_cid'],
+             stu_info['stu_tel'], stu_info['stu_nation'], stu_info['stu_adr_id'], stu_info['stu_adr'],
+             stu_info['stu_class'], stu_info['stu_parent_name'], stu_info['stu_parent_tel'],
+             stu_info['stu_parent_relation'], stu_info['stu_parent_name_vice'], stu_info['stu_parent_tel_vice'],
+             stu_info['stu_parent_relation_vice'], stu_info['stu_id']))
+    raise gen.Return()

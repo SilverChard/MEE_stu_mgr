@@ -116,6 +116,11 @@
 
     </div>
 
+    <div id="show_msg" class="mdl-js-snackbar mdl-snackbar">
+        <div class="mdl-snackbar__text"></div>
+        <button class="mdl-snackbar__action" type="button"></button>
+    </div>
+
 
 
 </%block>
@@ -267,7 +272,7 @@
                                 string_of_id = string_of_id.concat(ChineseDistricts[city][dis]);
                             }
                             if (data.res[it].stu_adr != "" && data.res[it].stu_adr != null) {
-                                string_of_id = string_of_id.concat("    ", data.res[it].stu_adr);
+                                string_of_id = string_of_id.concat("<br>", data.res[it].stu_adr);
                             }
 
                         } catch (TypeError) {
@@ -301,12 +306,16 @@
                             td.setAttribute('parent_tel_vice', data.res[it].stu_parent_tel_vice);
                         }
                         if (data.res[it].stu_parent_relation_vice != "" && data.res[it].stu_parent_relation_vice != null) {
-                            parent_str = parent_str.concat(data.res[it].stu_parent_relation_vice, ":", data.res[it].stu_parent_name_vice, "(", data.res[it].stu_parent_tel_vice, ")");
+                            parent_str = parent_str.concat("<br>", data.res[it].stu_parent_relation_vice, ":", data.res[it].stu_parent_name_vice, "(", data.res[it].stu_parent_tel_vice, ")");
                         }
-
-                        td.innerHTML = parent_str;
+                        var parent_div = document.createElement('div');
+                        parent_div.style.textAlign = 'left';
+                        parent_div.innerHTML = parent_str;
+                        td.appendChild(parent_div);
                         new_tr.appendChild(td);
 
+
+                        // 操作部分
                         var tools_button = document.createElement('button');
                         tools_button.id = 'edit'.concat(data.res[it].stu_id);
                         tools_button.className = 'mdl-button mdl-js-button mdl-button--icon mdl-button--colored';
@@ -330,7 +339,7 @@
                         tools_button = document.createElement('button');
                         tools_button.id = 'remove'.concat(data.res[it].stu_id);
                         tools_button.className = "mdl-button mdl-js-button mdl-button--icon mdl-button--colored";
-                        tools_button.setAttribute('onclick', 'info_change(tr'.concat(data.res[it].stu_id, ')'));
+                        tools_button.setAttribute('onclick', 'info_del(tr'.concat(data.res[it].stu_id, ')'));
 
                         tools_button_i = document.createElement('i');
                         tools_button_i.className = 'icon material-icons md-18';
@@ -352,9 +361,7 @@
                         componentHandler.upgradeElement(div_for_edit_tools);
                         componentHandler.upgradeElement(div_for_del_tools);
 
-                        //componentHandler.upgradeElement(new_tr);
                     }
-                    //var tr_id = 'tr'.concat(data.res[it].stu_id);
                     componentHandler.upgradeElement(document.getElementById('table_body'));
 
                 }
@@ -363,6 +370,8 @@
 
 
         function info_change(tr_id) {
+            var printMsg = document.querySelector('#show_msg');
+
             var stu_name_td = tr_id.childNodes[0];
             var stu_name = stu_name_td.innerHTML;
 
@@ -546,6 +555,7 @@
             stu_parent_td.innerHTML = '';
             var parent_1_div = document.createElement('div');
             stu_parent_td.appendChild(parent_1_div);
+            stu_parent_td.appendChild(document.createElement('br'));
             var parent_2_div = document.createElement('div');
             stu_parent_td.appendChild(parent_2_div);
             // 监护人1
@@ -582,6 +592,7 @@
             new_parent_tel.className = 'table_input_left';
             new_parent_tel.style.width = "80px";
             parent_1_div.appendChild(new_parent_tel);
+
             // 监护人2
             // 监护人关系
             var new_parent_relation_vice = document.createElement('select');
@@ -620,6 +631,7 @@
             //  操作部分
             tools_td.innerHTML = '';
             //      提交
+
             var tools_button = document.createElement('button');
             var i_of_button = document.createElement('i');
             var div_for_tools = document.createElement('div');
@@ -659,6 +671,10 @@
                     stu_name.style.borderBottomColor = '#d50000';
                     flag_of_all_input = false;
                 }
+                if (stu_id.value == "") {
+                    stu_id.style.borderBottomColor = '#d50000';
+                    flag_of_all_input = false;
+                }
                 if (stu_cid.value == "") {
                     stu_cid.style.borderBottomColor = '#d50000';
                     flag_of_all_input = false;
@@ -695,10 +711,42 @@
                         flag_of_all_input = false;
                     }
                 }
-                if(!flag_of_all_input){
+                if (flag_of_all_input) {
+                    var ajax_data = {
+                        'old_stu_id': stu_old_id,
+                        'stu_id': stu_id.value,
+                        'stu_name': stu_name.value,
+                        'stu_sex': stu_sex.value,
+                        'stu_room': stu_room.value,
+                        'stu_cid': stu_cid.value,
+                        'stu_tel': stu_tel.value,
+                        'stu_nation': stu_nation.value,
+                        'stu_adr_id': stu_adr_id_value,
+                        'stu_adr': stu_adr.value,
+                        'stu_class': stu_class.value,
+                        'stu_parent_name': stu_parent_name.value != "" && stu_parent_tel.value != "" ? stu_parent_name.value : stu_parent_name_vice.value,
+                        'stu_parent_tel': stu_parent_name.value != "" && stu_parent_tel.value != "" ? stu_parent_tel.value : stu_parent_tel_vice.value,
+                        'stu_parent_relation': stu_parent_name.value != "" && stu_parent_tel.value != "" ? stu_parent_relation.value : stu_parent_relation_vice.value,
 
+                        'stu_parent_name_vice': stu_parent_name.value != "" && stu_parent_tel.value != "" ? stu_parent_name_vice.value : stu_parent_name.value,
+                        'stu_parent_tel_vice': stu_parent_name.value != "" && stu_parent_tel.value != "" ? stu_parent_tel_vice.value : stu_parent_tel.value,
+                        'stu_parent_relation_vice': stu_parent_name.value != "" && stu_parent_tel.value != "" ? (stu_parent_name_vice.value != "" || stu_parent_tel_vice.value != "" ? stu_parent_relation_vice.value : "") : (stu_parent_name != "" || stu_parent_tel.value != "" ? stu_parent_relation : "")
+                    };
+
+                    $.ajax({
+                        url: '/stu_mgr/stu_edit',
+                        type: "post",
+                        dataType: "json",
+                        data: ajax_data,
+                        success(data){
+                            printMsg.MaterialSnackbar.showSnackbar({message: '修改成功'});
+                            getTable();
+                        }
+
+                    });
+                } else {
+                    printMsg.MaterialSnackbar.showSnackbar({message: "请填写完整所有信息"});
                 }
-
             };
             i_of_button.className = "icon material-icons md-18";
             i_of_button.innerHTML = 'check';
@@ -716,6 +764,7 @@
             tools_button.id = 'cancel_'.concat(stu_id);
             tools_button.className = "mdl-button mdl-js-button mdl-button--icon mdl-button--colored";
             tools_button.onclick = function () {
+                getTable();
             };
             i_of_button.className = "icon material-icons md-18";
             i_of_button.innerHTML = 'close';
@@ -740,6 +789,9 @@
             return res;
         }
 
+        function info_del(del_tr) {
+            alert('删除'.concat(del_tr.id,'功能待完成'));
+          }
 
         function get_room() {
             var res;
