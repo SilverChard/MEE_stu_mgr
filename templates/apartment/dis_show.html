@@ -91,7 +91,7 @@
                     var option_str = "<option value='0'>宿舍号</option>";
                     if (data.success) {
                         for (var it in data.room_info) {
-                            option_str = option_str.concat("<option>", data.room_info[it].stu_room, "</option>");
+                            option_str = option_str.concat("<option>", data.room_info[it].room_name, "</option>");
                         }
                         document.getElementById("stu_room").innerHTML = option_str;
 

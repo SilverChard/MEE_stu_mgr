@@ -108,11 +108,11 @@ def get_stu(stu_info):
 @gen.coroutine
 def edit_stu(id_change_flag, stu_info):
     if id_change_flag:
-        cur = yield database.pool.execute("DELETE FROM mee_stu_mgr.student_info WHERE stu_id=%s;",
-                                          stu_info['old_stu_id'])
+        yield database.pool.execute("DELETE FROM mee_stu_mgr.student_info WHERE stu_id=%s;",
+                                    stu_info['old_stu_id'])
         add_stu(stu_info)
     else:
-        cur = yield database.pool.execute(
+        yield database.pool.execute(
             """UPDATE `mee_stu_mgr`.`student_info` SET
                     `stu_name`=%s,
                     `stu_sex`=%s ,
@@ -135,4 +135,10 @@ def edit_stu(id_change_flag, stu_info):
              stu_info['stu_class'], stu_info['stu_parent_name'], stu_info['stu_parent_tel'],
              stu_info['stu_parent_relation'], stu_info['stu_parent_name_vice'], stu_info['stu_parent_tel_vice'],
              stu_info['stu_parent_relation_vice'], stu_info['stu_id']))
+    raise gen.Return()
+
+
+@gen.coroutine
+def del_stu(stu_id):
+    database.pool.execute("DELETE FROM `mee_stu_mgr`.`student_info` WHERE `stu_id`=%s;", stu_id)
     raise gen.Return()

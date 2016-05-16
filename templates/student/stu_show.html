@@ -7,7 +7,7 @@
     <div class="mdl-typography--text-center" onload="">
 
         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-typography--text-center"
-               style="margin: auto">
+               style="margin: auto;width: 1620px;overflow:scroll;">
             <thead>
             <tr>
                 ##          表头
@@ -123,6 +123,7 @@
 
 
 
+
 </%block>
 
 <%block name='js'>
@@ -148,7 +149,6 @@
 
 
         function onload_init() {
-
             $('#stu_adr_picker').distpicker({
                 autoSelect: false
             });
@@ -171,6 +171,7 @@
             var stu_nation_obj = document.getElementById('stu_nation');
             init_nation(stu_nation_obj);
             getTable();
+
         }
 
 
@@ -790,9 +791,51 @@
         }
 
         function info_del(del_tr) {
-            alert('删除'.concat(del_tr.id,'功能待完成'));
-          }
 
+            create_modal();
+
+            var close_handler = function cancel_madol() {
+                var tag_for_remove = document.getElementById('confirm_delete');
+                tag_for_remove.parentNode.removeChild(tag_for_remove);
+                tag_for_remove = document.getElementById('layout_obfuscator');
+                tag_for_remove.parentNode.removeChild(tag_for_remove);
+            };
+
+
+            document.getElementById('layout_obfuscator').onclick = close_handler;
+            document.getElementById('confirm_cancel').onclick = close_handler;
+            document.getElementById('confirm_close').onclick = close_handler;
+
+            document.getElementById('confirm_ok').onclick = function () {
+                var input_stu_id = document.getElementById('confirm_stu_id');
+                if (input_stu_id.value == "") {
+                    input_stu_id.parentNode.classList.add('is-invalid');
+                    input_stu_id.parentNode.childNodes[2].innerHTML = "请输入学号";
+                }
+                if (input_stu_id.value.length == 8) {
+                    var printMsg = document.querySelector('#show_msg');
+                    if (input_stu_id.value == del_tr.id.substring(2, 10)) {
+                        $.ajax({
+                            url: '/stu_mgr/stu_del',
+                            type: 'post',
+                            dataType: 'json',
+                            data: {'stu_id': del_tr.id.substring(2, 10)},
+                            success(){
+                                printMsg.MaterialSnackbar.showSnackbar({message: '成功删除'});
+                                close_handler();
+                                getTable();
+                            }
+                        });
+                    } else {
+                        printMsg.MaterialSnackbar.showSnackbar({message: "填写的学号有误，取消删除"});
+                        close_handler();
+                    }
+                }
+            };
+        }
+        function del_stu(input_stu_id, del_stu_id) {
+
+        }
         function get_room() {
             var res;
             $.ajax({
@@ -807,6 +850,68 @@
             return res;
         }
 
+        function create_modal() {
+
+            var confirm_modal = document.createElement('div');
+            document.getElementsByTagName('main')[0].parentNode.appendChild(confirm_modal);
+            var div_obj = document.createElement('div');
+            div_obj.id = "layout_obfuscator";
+            div_obj.className = "mdl-layout__obfuscator";
+            div_obj.style.height = ''.concat(document.getElementsByTagName('main')[0].children[0].clientHeight,'px');
+            document.getElementsByTagName('main')[0].appendChild(div_obj);
+
+            componentHandler.upgradeElement(confirm_modal);
+            confirm_modal.className = 'confirm-card-wide mdl-card mdl-shadow--2dp';
+            confirm_modal.style.cssText = "display: none;margin:-100px 0 0 -100px;position:absolute;left: 50%;right:auto;z-index:3;top: 40%;";
+            confirm_modal.id = 'confirm_delete';
+            div_obj = document.createElement('div');
+            div_obj.className = "mdl-card__title";
+            div_obj.innerHTML = "<h2 class='mdl-card__title-text'>是否删除该学生全部信息</h2>";
+            confirm_modal.appendChild(div_obj);
+
+            div_obj = document.createElement('div');
+            div_obj.className = "mdl-card__supporting-text";
+            confirm_modal.appendChild(div_obj);
+            div_obj.innerHTML = "<span style='color:#d50000;'>(删除学生操作不可逆，请认真确认)</span>";
+            div_obj.appendChild(div_obj = document.createElement('div'));
+            div_obj.className = "mdl-textfield mdl-js-textfield mdl-textfield--floating-label";
+            div_obj.style.cssText = 'width: 190px';
+            div_obj.innerHTML = "<input class='mdl-textfield__input' type='text' pattern=\"^\\d{8}$\" id='confirm_stu_id'/><label class='mdl-textfield__label' for='stu_id'>请输入要删除的学号以确认</label><span class='mdl-textfield__error'>学号为8位纯数字</span>";
+            div_obj.parentNode.appendChild(document.createElement('br'));
+            componentHandler.upgradeElement(div_obj);
+
+            div_obj = document.createElement('div');
+            div_obj.className = 'mdl-card__actions mdl-card--border';
+            confirm_modal.appendChild(div_obj);
+            var a_obj = document.createElement('a');
+            a_obj.className = 'mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect';
+            a_obj.id = 'confirm_ok';
+            a_obj.innerHTML = "<i class='material-icons'>done</i>确认";
+            div_obj.appendChild(a_obj);
+            componentHandler.upgradeElement(a_obj);
+            a_obj = document.createElement('a');
+            a_obj.className = 'mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect';
+            a_obj.id = 'confirm_cancel';
+            a_obj.innerHTML = "<i class='material-icons'>close</i>取消";
+            div_obj.appendChild(a_obj);
+            componentHandler.upgradeElement(a_obj);
+            componentHandler.upgradeElement(div_obj);
+
+            div_obj = document.createElement('div');
+            div_obj.className = 'mdl-card__menu';
+            var button_obj = document.createElement('button');
+            button_obj.innerHTML = "<i class='material-icons' style='color: #fdfdfe;'>close</i>";
+            button_obj.className = "mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect";
+            button_obj.id = "confirm_close";
+            div_obj.appendChild(button_obj);
+            confirm_modal.appendChild(div_obj);
+            componentHandler.upgradeElement(button_obj);
+            componentHandler.upgradeElement(div_obj);
+            componentHandler.upgradeElement(confirm_modal);
+            confirm_modal.style.display = 'block';
+            document.getElementById('layout_obfuscator').classList.add('is-visible');
+
+        }
     </script>
 </%block>
 
@@ -845,6 +950,14 @@
             display: block;
             float: right;
             font-weight: inherit;
+        }
+
+        .confirm-card-wide > .mdl-card__title {
+
+            color: #fdfdfe;
+            height: 100px;
+            background-color: #2195f2;
+
         }
     </style>
 </%block>

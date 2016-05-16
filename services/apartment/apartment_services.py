@@ -26,7 +26,7 @@ def insert_dis(dis_data):
 
 @gen.coroutine
 def get_room(info):
-    sql_str = "SELECT DISTINCT stu_room FROM student_info WHERE 1=1"
+    sql_str = "SELECT room_name FROM student_room WHERE id in (SELECT DISTINCT stu_room FROM student_info WHERE 1=1)"
     sql_list = []
     if info['stu_sex'] != 0:
         sql_str += " and stu_sex = %s"
@@ -49,6 +49,7 @@ def get_room(info):
     cur = yield database.pool.execute(sql_str, params=sql_tuple)
     rs = database.cur_to_dict(cur)
     raise gen.Return(rs)
+
 
 @gen.coroutine
 def get_dis(page_start, info):

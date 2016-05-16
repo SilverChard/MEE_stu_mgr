@@ -79,6 +79,16 @@ class EditStudentInfoHandler(BaseHandler):
         }
         student_service.edit_stu(id_change_flag=id_change_flag, stu_info=stu_info)
         self.write_json({'success':True})
+        return
+
+class DeleteStudentHandler(BaseHandler):
+    @gen.coroutine
+    @tornado.web.authenticated
+    def post(self, *args, **kwargs):
+        stu_id = self.get_argument('stu_id')
+        student_service.del_stu(stu_id=stu_id)
+        self.write_json({'success': True})
+        return
 
 
 class DownloadStudentInfoHandler(BaseHandler):
@@ -141,7 +151,7 @@ class DownloadStudentInfoHandler(BaseHandler):
         sio = yield helper_service.generate_excel(order_res, thead=thead)
         self.write(sio.getvalue())
         self.finish()
-
+        return
 
 class GetStudentHandler(BaseHandler):
     @gen.coroutine
@@ -156,7 +166,7 @@ class GetStudentHandler(BaseHandler):
                 }
         res = yield get_stu(stu_info=info)
         self.write_json({'success': True, 'res': res})
-
+        return
 
 class StudentSubmitHandler(BaseHandler):
     @gen.coroutine
@@ -209,3 +219,4 @@ class StudentSubmitHandler(BaseHandler):
 
         res = yield student_service.add_stu(stu_info)
         self.write_json({'success': True, 'message': res})
+        return
