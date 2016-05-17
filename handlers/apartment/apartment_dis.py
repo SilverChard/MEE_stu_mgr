@@ -1,21 +1,16 @@
 # coding=utf-8
 import tornado
-from tornado import web
-from tornado.web import gen
+from tornado import web, gen
+
 from handlers.base import BaseHandler
 from services.apartment import apartment_services
 
 __author__ = 'Silver'
 
 
-class ApartmentIndexHandler(BaseHandler):
-    @tornado.web.authenticated
-    def get(self, *args, **kwargs):
-        self.render('/apartment/index.html')
-
-
 class ApartmentDisInputHandler(BaseHandler):
     @tornado.web.authenticated
+    @gen.coroutine
     def get(self, *args, **kwargs):
         self.render('/apartment/dis_input.html')
 
@@ -84,7 +79,7 @@ class ApartmentDisGetHandler(BaseHandler):
             "page_offset": int(self.get_argument('page_offset')),
             "stu_sex": int(self.get_argument('stu_sex')),
             "stu_id": int(self.get_argument('stu_id')),
-            "stu_room":self.get_argument('stu_room'),
+            "stu_room": self.get_argument('stu_room'),
             "dis_type": int(self.get_argument('dis_type')),
             "dis_class": int(self.get_argument('dis_class'))
         }

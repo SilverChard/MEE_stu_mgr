@@ -4000,8 +4000,6 @@ def get_dis_type_by_num(num):
 
 @gen.coroutine
 def generate_excel(res, thead):
-    # self.set_header('Content-Type', 'text/plain')
-    # self.set_header('Content-Disposition', 'attachment; filename=student_info.txt')
     workbook = xlwt.Workbook(encoding='utf-8')
     workbook.country_code = 86
     worksheet = workbook.add_sheet('student_info', cell_overwrite_ok=False)  # True 则可以覆盖

@@ -1,10 +1,12 @@
 # coding=utf-8
-from handlers.psychology import PsyIndexHandler
-from handlers.apartment import ApartmentIndexHandler, ApartmentDisInputHandler, ApartmentSubDisIndexHandler, \
+from handlers.apartment.apartment_dis import ApartmentDisInputHandler, ApartmentSubDisIndexHandler, \
     ApartmentDisShowHandler, ApartmentDisGetHandler, ApartmentGetStuRoomHandler
+from handlers.apartment.apartment import ApartmentIndexHandler
+from handlers.apartment.apartment_sanitation import ApartmentSanitationAddHandler, ApartmentSanitationShowHandler
 from handlers.helper import GetStuInfoByIdHandler, GetRoomHandler, GetClassHandler
 from handlers.holiday import HolidayIndexHandler
 from handlers.index import IndexHandler
+from handlers.psychology import PsyIndexHandler
 from handlers.stu_class import ClassIndexHandler
 from handlers.student import StudentIndexHandler, AddStudentHandler, ShowStudentHandler, StudentSubmitHandler, \
     GetStudentHandler, DownloadStudentInfoHandler, EditStudentInfoHandler, DeleteStudentHandler
@@ -14,11 +16,15 @@ url_patterns = [
 
     # 公寓类
     (r'/apartment', ApartmentIndexHandler),
+    # 公寓违纪类
     (r'/apartment/dis_input', ApartmentDisInputHandler),
     (r'/apartment/sub_dis', ApartmentSubDisIndexHandler),
     (r'/apartment/dis_show', ApartmentDisShowHandler),
     (r'/apartment/get_dis', ApartmentDisGetHandler),
     (r'/apartment/get_stu_room', ApartmentGetStuRoomHandler),
+    # 公寓卫生类
+    (r'/apartment/sanitation_add', ApartmentSanitationAddHandler),
+    (r'/apartment/sanitation_show', ApartmentSanitationShowHandler),
 
     # 课堂管理类
     (r'/class', ClassIndexHandler),

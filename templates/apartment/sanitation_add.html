@@ -1,0 +1,61 @@
+# coding=utf-8
+<%inherit file="/apartment/apartment_base.html"/>
+<%block name="title">
+    公寓卫生登记
+</%block>
+<%block name="content">
+    <div class="mdl-typography--text-center">
+
+        <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label" style="width: 65px;">
+            <select id="stu_room" class="mdl-selectfield__select">
+                <option>请选择宿舍</option>
+            </select>
+            <label for="stu_room" class="mdl-selectfield__label">学生宿舍</label>
+            <span class="mdl-selectfield__error">请选择一个宿舍</span>
+        </div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
+             style="margin-left: 32px;width: 65px;">
+            <input class="mdl-textfield__input" id="sanitation_score" pattern="">
+            <label for="sanitation_score" class="mdl-textfield__label">卫生评分</label>
+            <span class="mdl-textfield__error">评分为0~100的小数</span>
+        </div>
+
+        <div id="date_container" class="mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="text" id="date" readonly/>
+            <label class="mdl-textfield__label" id="date_label" for="date">Date</label>
+        </div>
+
+    </div>
+
+</%block>
+<%block name="js">
+
+    <script>
+        function onload_init() {
+            get_room();
+            $("#date").mdldatepicker();
+        }
+        function get_room() {
+            $.ajax({
+                url: '/getStuRoom',
+                type: 'post',
+                dataType: 'json',
+                success(data){
+                    var select_obj = document.getElementById('stu_room');
+                    for (var it in data.room_info) {
+                        var op = document.createElement('option');
+                        op.value = data.room_info[it].id;
+                        op.innerHTML = data.room_info[it].room_name;
+                        select_obj.appendChild(op);
+                    }
+                }
+
+            });
+        }
+
+    </script>
+
+</%block>
+
+<%block name="css">
+</%block>
