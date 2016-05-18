@@ -728,7 +728,6 @@
                         'stu_parent_name': stu_parent_name.value != "" && stu_parent_tel.value != "" ? stu_parent_name.value : stu_parent_name_vice.value,
                         'stu_parent_tel': stu_parent_name.value != "" && stu_parent_tel.value != "" ? stu_parent_tel.value : stu_parent_tel_vice.value,
                         'stu_parent_relation': stu_parent_name.value != "" && stu_parent_tel.value != "" ? stu_parent_relation.value : stu_parent_relation_vice.value,
-
                         'stu_parent_name_vice': stu_parent_name.value != "" && stu_parent_tel.value != "" ? stu_parent_name_vice.value : stu_parent_name.value,
                         'stu_parent_tel_vice': stu_parent_name.value != "" && stu_parent_tel.value != "" ? stu_parent_tel_vice.value : stu_parent_tel.value,
                         'stu_parent_relation_vice': stu_parent_name.value != "" && stu_parent_tel.value != "" ? (stu_parent_name_vice.value != "" || stu_parent_tel_vice.value != "" ? stu_parent_relation_vice.value : "") : (stu_parent_name != "" || stu_parent_tel.value != "" ? stu_parent_relation : "")
@@ -833,9 +832,8 @@
                 }
             };
         }
-        function del_stu(input_stu_id, del_stu_id) {
 
-        }
+
         function get_room() {
             var res;
             $.ajax({
@@ -857,7 +855,7 @@
             var div_obj = document.createElement('div');
             div_obj.id = "layout_obfuscator";
             div_obj.className = "mdl-layout__obfuscator";
-            div_obj.style.height = ''.concat(document.getElementsByTagName('main')[0].children[0].clientHeight,'px');
+            div_obj.style.height = ''.concat(document.getElementsByTagName('main')[0].children[0].clientHeight, 'px');
             document.getElementsByTagName('main')[0].appendChild(div_obj);
 
             componentHandler.upgradeElement(confirm_modal);

@@ -8,23 +8,40 @@
 
         <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label" style="width: 65px;">
             <select id="stu_room" class="mdl-selectfield__select">
-                <option>请选择宿舍</option>
+                <option></option>
             </select>
             <label for="stu_room" class="mdl-selectfield__label">学生宿舍</label>
             <span class="mdl-selectfield__error">请选择一个宿舍</span>
         </div>
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
              style="margin-left: 32px;width: 65px;">
-            <input class="mdl-textfield__input" id="sanitation_score" pattern="">
+            <input class="mdl-textfield__input" id="sanitation_score" pattern="^(\d{1,2}(\.\d{1,2})?|100)$">
             <label for="sanitation_score" class="mdl-textfield__label">卫生评分</label>
             <span class="mdl-textfield__error">评分为0~100的小数</span>
         </div>
+        <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label" style="width: 65px;">
 
-        <div id="date_container" class="mdl-textfield mdl-js-textfield">
-            <input class="mdl-textfield__input" type="text" id="date" readonly/>
-            <label class="mdl-textfield__label" id="date_label" for="date">Date</label>
+            <select  class="mdl-selectfield__select">
+                <option>正常</option>
+                <option>异味</option>
+                <option>地面脏乱</option>
+                <option>床铺未叠</option>
+                <option>卫生间镜子脏</option>
+            </select>
+
         </div>
-
+        <br>
+        <div class="mdl-textfield mdl-js-selectfield mdl-textfield--floating-label is-dirty" style="margin-left: 32px;width: auto;">
+            <input class="mdl-textfield__input" id="sanitation_date" type="date" style="border:none; border-bottom: 1px solid rgba(0,0,0,.12);padding-bottom: 2px;color: #bcbcbc;">
+            <label class="mdl-textfield__label" for="sanitation_date">检查时间</label>
+            <span class="mdl-textfield__error">请选择检查日期</span>
+        </div>
+        <br>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+            <i class="material-icons">done</i>
+            提交
+        </button>
+            </div>
     </div>
 
 </%block>
@@ -33,7 +50,6 @@
     <script>
         function onload_init() {
             get_room();
-            $("#date").mdldatepicker();
         }
         function get_room() {
             $.ajax({

@@ -19,45 +19,44 @@
 
         <form action="">
 
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
+                 style="width: 95px;margin-right: 30px;">
                 <input class="mdl-textfield__input" type="text" pattern="^\d{8}$" id="stu_id"
                        onchange="getInfo()"/>
-                <label class="mdl-textfield__label" for="stu_id">请输入违纪学生学号</label>
+                <label class="mdl-textfield__label" for="stu_id">违纪学生学号</label>
                 <span class="mdl-textfield__error">学号为8位纯数字</span>
             </div>
-            <div id='stu_name_div' class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <div id='stu_name_div' class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
+                 style="width: 80px;margin-right: 30px;">
                 <input class="mdl-textfield__input" type="text" id="stu_name" value=""
                        readonly/>
-                <label class="mdl-textfield__label" for="stu_name">学生姓名:</label>
+                <label class="mdl-textfield__label" for="stu_name">姓名:</label>
                 <span class="mdl-textfield__error">无此学号对应的学生信息</span>
             </div>
-            <div id='stu_sex_div' class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <div id='stu_sex_div' class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
+                 style="width: 95px;margin-right: 30px;">
                 <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="stu_sex" value=""
                        readonly/>
-                <label class="mdl-textfield__label" for="stu_sex">学生性别:</label>
+                <label class="mdl-textfield__label" for="stu_sex">性别:</label>
                 <span class="mdl-textfield__error">无此学号对应的学生信息</span>
             </div>
 
             <br>
+            <div id="type_and_class">
+                <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label"
+                     style="width: 100px;margin-left: 15px;margin-right: 15px;">
+                    <select id="dis_type" class="mdl-selectfield__select" onchange=" get_class_by_type()">
+                        <option></option>
+                        <option value="1">宿舍违纪行为</option>
+                        <option value="2">宿舍违纪物品</option>
+                    </select>
+                    <label for="discipline_type" class="mdl-selectfield__label">
+                        违纪类型
+                    </label>
+                    <span class="mdl-selectfield__error">请选择一种违纪类型</span>
+                </div>
 
-            <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label">
-                <select id="discipline_type" class="mdl-selectfield__select" onchange=" sub_type_get_select2()">
-                    <option></option>
-                    <option value="dis_item">宿舍违纪物品</option>
-                    <option value="dis_behavior">宿舍违纪行为</option>
-                </select>
-                <label for="discipline_type" class="mdl-selectfield__label">
-                    违纪类型
-                </label>
-                <span class="mdl-selectfield__error">请选择一种违纪类型</span>
-            </div>
-            <div id='discipline_2_div' class='mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label'>
 
-                <select id='discipline_2' class='mdl-selectfield__select'>
-                </select>
-                <label for='discipline_2' class='mdl-selectfield__label'
-                       id="discipline_2_label"></label>
-                <span class='mdl-selectfield__error'>请选择</span>
             </div>
             <br>
             <div class="mdl-textfield mdl-js-textfield">
@@ -123,66 +122,114 @@
                     }
                 });
 
+            } else {
+                document.getElementById('stu_name').valueOf().value = "";
+                document.getElementById('stu_name_div').classList.remove('is-dirty');
+                document.getElementById('stu_sex').valueOf().value = "";
+                document.getElementById('stu_sex_div').classList.remove('is-dirty');
+                ;
             }
         }
-        function sub_type_get_select2() {
-            var dis_type = document.getElementById('discipline_type').valueOf().value;
-            if (dis_type == "dis_item") {
-                document.getElementById("discipline_2").innerHTML = "<option></option><option value='1' class='mdl-selectfield'>烟</option><option value='2' class='mdl-selectfield'>酒</option><option value='3' class='mdl-selectfield'>打火机</option><option value='4' class='mdl-selectfield'>管制刀具</option><option value='5' class='mdl-selectfield'>违规电器</option><option value='10' class='mdl-selectfield'>其他违规物品</option>";
-                document.getElementById("discipline_2_label").innerHTML = "请选择违纪物品";
-                ##                 document.getElementById('discipline_item_div').className = "mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label";
-                ##                 document.getElementById('discipline_behavior_div').className = "mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label  invisible";
-                            }
-            else if (dis_type == "dis_behavior") {
-                document.getElementById("discipline_2").innerHTML = "<option></option><option value='1' class='mdl-selectfield'>早归</option><option value='2' class='mdl-selectfield'>晚归</option><option value='3' class='mdl-selectfield'>夜不归宿</option><option value='4' class='mdl-selectfield'>私开小卖部</option><option value='5' class='mdl-selectfield'>聚众打麻将</option><option value='6' class='mdl-selectfield'>私养宠物</option><option value='7' class='mdl-selectfield'>宿舍打架</option><option value='10' class='mdl-selectfield'>其他违规行为</option>";
-                document.getElementById("discipline_2_label").innerHTML = "请选择违纪行为";
-                ##                 document.getElementById('discipline_item_div').className = "mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label  invisible";
-                ##                 document.getElementById('discipline_behavior_div').className = "mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label ";
-                            }
+
+        function get_class_by_type() {
+            get_dis_class(document.getElementById('dis_type').value);
+        }
+
+        function get_dis_class(dis_type) {
+            var dis_class_res;
+            $.ajax({
+                url: '/apartment/get_dis_class',
+                type: 'post',
+                dataType: 'json',
+                data: {"dis_type": dis_type},
+                success(data){
+                    var remove_obj = document.getElementById('dis_class')
+                    if (remove_obj) {
+                        remove_obj.parentNode.parentNode.removeChild(remove_obj.parentNode)
+                    }
+                    var op = document.createElement('option');
+                    var div_obj = document.createElement('div');
+                    document.getElementById('type_and_class').appendChild(div_obj);
+                    div_obj.className = "mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label";
+                    div_obj.style.width = '100px';
+                    div_obj.style.marginLeft = "15px";
+                    div_obj.style.marginRight = "15px";
+                    var sub_obj = document.createElement('select');
+                    div_obj.appendChild(sub_obj);
+                    sub_obj.id = 'dis_class';
+                    sub_obj.className = "mdl-selectfield__select";
+                    sub_obj.appendChild(op);
+
+                    for (var it in data.dis_class) {
+                        op = document.createElement('option');
+                        sub_obj.appendChild(op);
+                        op.innerHTML = data.dis_class[it].dis_class_name;
+                        op.value = data.dis_class[it].id;
+                    }
+                    sub_obj = document.createElement('label');
+                    sub_obj.setAttribute('for', 'dis_class');
+                    sub_obj.className = "mdl-selectfield__label";
+                    sub_obj.innerHTML = "违纪类型";
+                    div_obj.appendChild(sub_obj);
+                    sub_obj = document.createElement('span');
+                    sub_obj.className = "mdl-selectfield__error";
+                    sub_obj.innerHTML = "请选择具体违纪事项";
+                    div_obj.appendChild(sub_obj);
+                    componentHandler.upgradeElement(div_obj);
+                }
+            });
+
 
         }
 
         function sub_form() {
-            var stu_id = document.getElementById("stu_id").valueOf().value;
-            var dis_type = document.getElementById("discipline_type").valueOf().value;
-            var dis_2 = document.getElementById("discipline_2").valueOf().value;
-            var dis_date = document.getElementById("dis_date").valueOf().value;
-            var others = document.getElementById("others").valueOf().value;
+            var stu_id = document.getElementById("stu_id");
+            var dis_type = document.getElementById("dis_type");
+            var dis_class = document.getElementById('dis_class');
+            var dis_date = document.getElementById("dis_date");
+            var others = document.getElementById("others");
             var printMsg = document.querySelector('#show_msg');
-            var handler = function (event) {
+            var handler = function () {
                 window.location.reload();
             };
-            if (stu_id == "" || dis_type == "" || dis_2 == "" || dis_date == "") {
-                alert("请确保你已经填入所有项");
+            if (stu_id.value == "" || dis_type.value == "" || (dis_class && dis_class.value == "") || dis_date.value == "") {
+                printMsg.MaterialSnackbar.showSnackbar({message: "请检查你是否填入所有项"});
+                if (stu_id.value == "")
+                    stu_id.parentNode.classList.add('is-invalid');
+                if (dis_type.value == "")
+                    dis_type.parentNode.classList.add('is-invalid');
+                if (dis_class && dis_class.value == "")
+                    dis_class.parentNode.classList.add('is-invalid');
+                if (dis_date.value == "") {
+                    var error_span = document.createElement('span');
+                    document.getElementById('date_container').insertBefore(error_span, document.getElementById('dis_date'));
+                    error_span.innerHTML = "请输入时间<br>";
+                    error_span.style.fontSize = '12px';
+                    error_span.style.color = '#DE3226';
+                }
             } else {
                 $.ajax({
                     url: "/apartment/sub_dis",
                     type: "post",
                     data: {
-                        'stu_id': stu_id,
-                        'dis_type': dis_type,
-                        'dis_2': dis_2,
-                        'others': others,
-                        'dis_date': dis_date
+                        'stu_id': stu_id.value,
+                        'dis_type': dis_type.value,
+                        'dis_class': dis_class.value,
+                        'others': others.value,
+                        'dis_date': dis_date.value
                     },
                     dataType: "json",
-                    success(data){
-                        if (data.success) {
-                            var message_data = {
-                                message: '录入成功',
-                                actionHandler: handler,
-                                actionText: '继续录入',
-                                timeout:3000
-                            };
-                            printMsg.MaterialSnackbar.showSnackbar(message_data);
-                            setTimeout(function () {
-                                window.location.href = "/";
-                            }, 2000);
-
-                        }
-                        else {
-                            printMsg.MaterialSnackbar.showSnackbar({message: "录入失败 请检查网络是否正确"});
-                        }
+                    success(){
+                        var message_data = {
+                            message: '录入成功',
+                            actionHandler: handler,
+                            actionText: '继续录入',
+                            timeout: 3000
+                        };
+                        printMsg.MaterialSnackbar.showSnackbar(message_data);
+                        setTimeout(function () {
+                            window.location.href = "/";
+                        }, 2000);
 
                     }
                 });

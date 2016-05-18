@@ -4,196 +4,496 @@
     公寓违纪查询
 </%block>
 <%block name="content">
-<div class="mdl-typography--text-center" onload="onload_init()">
+    <div class="mdl-typography--text-center" onload="onload_init()">
 
-    <table class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp mdl-typography--text-center" style="margin: auto">
-        <thead>
-        <tr>
-            <th style="padding-bottom: 10px;">违纪编号</th>
-            <th style="padding-bottom: 10px;">姓名</th>
-            <th style="padding-bottom: 10px;"><select id="stu_sex" onchange="getDisTable()">
-                <option value="0">性别</option>
-                <option value="1">男</option>
-                <option value="2">女</option>
-            </select></th>
-            <th>
-                <div class="mdl-textfield mdl-js-textfield" style="font-size: small;padding: 0;width: 80px;"><label
-                        for="stu_id">学号</label>
-                    <div class="mdl-textfield__expandable-holder" style="margin:0;padding: 0"><input
-                            class="mdl-textfield__input" type="text" id="stu_id" onchange="getDisTable()"></div>
-                </div>
-            </th>
-            <th style="padding-bottom: 10px;"><select id="stu_room" onchange="getDisTable()">
-                <option value="0">宿舍号</option>
-            </select></th>
-            <th style="padding-bottom: 10px;"><select id="dis_type" style="width: 80px" onchange="type2class()">
-                <option value="0">违纪类型</option>
-                <option value="1">宿舍违纪物品</option>
-                <option value="2">宿舍行为违纪</option>
-            </select></th>
-            <th style="padding-bottom: 10px;"><select id="dis_class" onchange="getDisTable()">
-                <option value="0">违纪原因</option>
-            </select></th>
-            <th style="padding-bottom: 10px;">违纪时间</th>
-            <th style="padding-bottom: 10px;">备注</th>
-        </tr>
-        </thead>
-        <tbody id="table_body">
+        <table class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp mdl-typography--text-center"
+               style="margin: auto">
+            <thead>
+            <tr>
+                <th style="padding-bottom: 10px;">违纪编号</th>
+                <th style="padding-bottom: 10px;">姓名</th>
+                <th style="padding-bottom: 12px;"><select class="table_input_right" id="stu_sex"
+                                                          onchange="getDisTable()">
+                    <option value="">性别</option>
+                    <option>男</option>
+                    <option>女</option>
+                </select></th>
+                <th>
+                    <div class="mdl-textfield mdl-js-textfield" style="font-size: small;padding: 0;width: 80px;"><label
+                            for="stu_id">学号</label>
+                        <div class="mdl-textfield__expandable-holder" style="margin:0;padding: 0">
+                            <input class="mdl-textfield__input" type="text" id="stu_id" onchange="getDisTable()"></div>
+                    </div>
+                </th>
+                <th style="padding-bottom: 12px;">
+                    <select id="stu_room" class="table_input_right" onchange="getDisTable()">
+                        <option value="">宿舍号</option>
+                    </select>
+                </th>
+                <th style="padding-bottom: 12px;">
+                    <select id="dis_type" class="table_input_right" style="width: 105px">
+                        <option value="">违纪类型</option>
+                        <option value="1">宿舍行为违纪</option>
+                        <option value="2">宿舍违纪物品</option>
+                    </select>
+                </th>
+                <th style="padding-bottom: 12px;">
+                    <select id="dis_class" class="table_input_right" onchange="getDisTable()">
+                        <option value="">违纪原因</option>
+                    </select>
+                </th>
+                <th style="padding-bottom: 10px;">违纪时间</th>
+                <th style="padding-bottom: 10px;">备注</th>
+                <th style="padding-bottom: 10px;">操作</th>
+            </tr>
+            </thead>
+            <tbody id="table_body">
 
 
-        </tbody>
-    </table>
-    <div id='page_no_div' class='mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label'
-         style="width: 100px;margin-right: 30px">
-
-        <select id='page_no' class='mdl-selectfield__select mdl-typography--text-center' onchange="getDisTable();">
-            <option>1</option>
-        </select>
-        <label for='page_no' class='mdl-selectfield__label'>请选择页码</label>
-        <span class='mdl-selectfield__error'>请选择</span>
+            </tbody>
+        </table>
     </div>
 
-
-
-    <div id='offset_div' class='mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label'
-         style="width: 100px" onchange="onload_init()">
-        <select id='offset' class='mdl-selectfield__select'>
-            <option value="10">10</option>
-            <option value="15">15</option>
-            <option value="30">30</option>
-            <option value="0">all</option>
-        </select>
-        <label for='offset' class='mdl-selectfield__label'>请选择分页量</label>
-        <span class='mdl-selectfield__error'>请选择</span>
+    <div id="show_msg" class="mdl-js-snackbar mdl-snackbar">
+        <div class="mdl-snackbar__text"></div>
+        <button class="mdl-snackbar__action" type="button"></button>
     </div>
+
 
 </%block>
 <%block name="js">
     <script>
-        function getAllRoom() {
-            var stu_sex = document.getElementById('stu_sex').valueOf().value;
-            var stu_id = parseInt(document.getElementById('stu_id').valueOf().value);
-            var stu_room = document.getElementById('stu_room').valueOf().value;
-            var dis_type = document.getElementById('dis_type').valueOf().value;
-            var dis_class = document.getElementById('dis_class').valueOf().value;
-            stu_id = (stu_id) ? stu_id : '0';
+        function getRoom() {
+            var res;
             $.ajax({
-                url: "/apartment/get_stu_room",
-                type: "post",
-                data: {
-                    'stu_sex': stu_sex,
-                    'stu_id': stu_id,
-                    'dis_type': dis_type,
-                    'dis_class': dis_class
-                },
-                dataType: "json",
+                async: false,
+                url: '/getStuRoom',
+                type: 'post',
+                dataType: 'json',
                 success(data){
-                    var option_str = "<option value='0'>宿舍号</option>";
-                    if (data.success) {
-                        for (var it in data.room_info) {
-                            option_str = option_str.concat("<option>", data.room_info[it].room_name, "</option>");
-                        }
-                        document.getElementById("stu_room").innerHTML = option_str;
-
-                    }
+                    res = data.room_info;
                 }
             });
+
+            var stu_room_filter = document.getElementById('stu_room');
+            for (var it in res) {
+                var op = document.createElement('option');
+                op.innerHTML = res[it].room_name;
+                op.value = res[it].id;
+                stu_room_filter.appendChild(op);
+            }
+
         }
 
-        function set_page(default_num,info_num) {
-            var html_str = "";
-            var offset = document.getElementById('offset').valueOf().value;
-            var all_pages = info_num/offset+2;
-            var i=0;
-            while(i < all_pages){
-                if(i!=default_num){
-                html_str = html_str.concat("<option>",i,"</option>");
-                    }else {
-                    html_str = html_str.concat("<option  selected='selected'>",i,"</option>");
-                }
-                i++;
-            }
-            document.getElementById("page_no").innerHTML=""
-        }
 
         function onload_init() {
-            var offset = document.getElementById('offset').valueOf().value;
-            var page_num = (${dis_num}/ offset + 1
-        )
-            ;
-            var i = 1;
-            var str = " ";
-            if (offset == 0) {
-                page_num = 2;
-            }
-            while (i < page_num) {
-                str = str.concat("<option>", i, "</option>");
-                i++;
-            }
-            document.getElementById('page_no').innerHTML = str;
-            getDisTable(1);
-            getAllRoom();
+            getRoom();
+            var op;
+            document.getElementById('dis_type').onchange = function () {
+                if (document.getElementById('dis_type').value != "") {
+                    var dis_class = get_dis_class(document.getElementById('dis_type').value);
+                    document.getElementById('dis_class').innerHTML = "";
+                    op = document.createElement('option');
+                    op.innerHTML = '违纪原因';
+                    op.value = "";
+                    document.getElementById('dis_class').appendChild(op);
+                    for (var index_num in dis_class) {
+                        op = document.createElement('option');
+                        op.innerHTML = dis_class[index_num].dis_class_name;
+                        op.value = dis_class[index_num].id;
+                        document.getElementById('dis_class').appendChild(op);
+                    }
+
+                } else {
+                    document.getElementById('dis_class').innerHTML = "";
+                    op = document.createElement('option');
+                    op.innerHTML = '违纪原因';
+                    op.value = "";
+                }
+                getDisTable();
+            };
+
+            getDisTable();
+
+
         }
 
         function getDisTable() {
-            var page_str = document.getElementById('page_no').valueOf().value;
-            var page_start = (parseInt(page_str) - 1) * 10;
-            var page_offset = document.getElementById('offset').valueOf().value;
-            var stu_sex = document.getElementById('stu_sex').valueOf().value;
-            var stu_id = parseInt(document.getElementById('stu_id').valueOf().value);
-            var stu_room = document.getElementById('stu_room').valueOf().value;
-            var dis_type = document.getElementById('dis_type').valueOf().value;
-            var dis_class = document.getElementById('dis_class').valueOf().value;
-            stu_id = (stu_id) ? stu_id : '0';
+            var stu_sex_filter = document.getElementById('stu_sex').value;
+            var stu_id_filter = document.getElementById('stu_id').value;
+            var stu_room_filter = document.getElementById('stu_room').value;
+            var dis_type_filter = document.getElementById('dis_type').value;
+            var dis_class_filter = document.getElementById('dis_class').value;
+            var ajax_data = {
+                'stu_sex': stu_sex_filter,
+                'stu_id': stu_id_filter,
+                'stu_room': stu_room_filter,
+                'dis_type': dis_type_filter,
+                'dis_class': dis_class_filter
+            };
             $.ajax({
-                url: "/apartment/get_dis",
-                type: "post",
-                data: {
-                    'page_start': page_start,
-                    'page_offset': page_offset,
-                    'stu_sex': stu_sex,
-                    'stu_id': stu_id,
-                    'stu_room': stu_room,
-                    'dis_type': dis_type,
-                    'dis_class': dis_class
-                },
-                dataType: "json",
-                success(data){
-                    if (data.success) {
-                        var table_str = " ";
-                        for (var every_iter in data.table_info) {
-                            table_str = table_str.concat("<tr>");
-                            table_str = table_str.concat("<th>", data.table_info[every_iter].id, "</th>");
-                            table_str = table_str.concat("<th>", data.table_info[every_iter].stu_name, "</th>");
-                            table_str = table_str.concat("<th>", data.table_info[every_iter].stu_sex, "</th>");
-                            table_str = table_str.concat("<th>", data.table_info[every_iter].stu_id, "</th>");
-                            table_str = table_str.concat("<th>", data.table_info[every_iter].stu_room, "</th>");
-                            table_str = table_str.concat("<th>", data.table_info[every_iter].dis_type, "</th>");
-                            table_str = table_str.concat("<th>", data.table_info[every_iter].dis_class, "</th>");
-                            table_str = table_str.concat("<th>", data.table_info[every_iter].dis_date, "</th>");
-                            table_str = table_str.concat("<th>", data.table_info[every_iter].others, "</th>");
-                            table_str = table_str.concat("</tr>");
+                        url: "/apartment/get_dis",
+                        type: "post",
+                        data: ajax_data,
+                        dataType: "json",
+                        success(data){
+                            var table_obj = document.getElementById('table_body');
+                            table_obj.innerHTML = "";
+                            for (var it in data.dis_info) {
+                                var tr = document.createElement('tr');
+                                tr.id = 'tr'.concat(data.dis_info[it].id);
+                                table_obj.appendChild(tr);
+                                var td = document.createElement('td');
+                                tr.appendChild(td);
+                                td.innerHTML = data.dis_info[it].id;
+                                td = document.createElement('td');
+                                tr.appendChild(td);
+                                td.innerHTML = data.dis_info[it].stu_name;
+                                td = document.createElement('td');
+                                tr.appendChild(td);
+                                td.innerHTML = data.dis_info[it].stu_sex;
+                                td = document.createElement('td');
+                                tr.appendChild(td);
+                                td.innerHTML = data.dis_info[it].stu_id;
+                                td = document.createElement('td');
+                                tr.appendChild(td);
+                                td.innerHTML = data.dis_info[it].stu_room;
+                                td = document.createElement('td');
+                                tr.appendChild(td);
+                                td.innerHTML = data.dis_info[it].dis_type == 1 ? '行为违纪' : '违纪物品';
+                                td = document.createElement('td');
+                                tr.appendChild(td);
+                                td.innerHTML = data.dis_info[it].dis_class;
+                                td = document.createElement('td');
+                                tr.appendChild(td);
+                                td.innerHTML = data.dis_info[it].dis_date;
+                                td = document.createElement('td');
+                                tr.appendChild(td);
+                                td.innerHTML = data.dis_info[it].others;
+                                td = document.createElement('td');
+                                tr.appendChild(td);
+                                // 修改记录按钮
+                                var button_obj = document.createElement('button');
+                                td.appendChild(button_obj);
+                                button_obj.id = 'edit'.concat(data.dis_info[it].id);
+                                button_obj.className = "mdl-button mdl-js-button mdl-button--icon mdl-button--colored";
+                                button_obj.onclick = function () {
+                                    //学号 违纪类型 违纪原因 违纪时间
+                                    // 获得tr行
+                                    var tds = this.parentNode.parentNode.childNodes;
+                                    // 学号部分
+                                    var input_obj = document.createElement('input');
+                                    input_obj.id = 'new_stu_id'.concat(tds[0].innerHTML);
+                                    input_obj.className = "table_input_right_blue";
+                                    input_obj.style.width = '58px';
+                                    input_obj.value = tds[3].innerHTML;
+                                    tds[3].innerHTML = "";
+                                    tds[3].appendChild(input_obj);
+                                    // 违纪类型部分
+                                    var default_dis_type = tds[5].innerHTML;
+                                    var select_obj = document.createElement('select');
+                                    select_obj.className = "table_input_right_blue";
+                                    select_obj.style.width = '75px';
+                                    select_obj.id = 'new_dis_type'.concat(tds[0].innerHTML);
+                                    var op = document.createElement('option');
+                                    op.innerHTML = '行为违纪';
+                                    op.value = 1;
+                                    select_obj.appendChild(op);
+                                    if (default_dis_type == '行为违纪')
+                                        op.defaultSelected = true;
+                                    op = document.createElement('option');
+                                    op.innerHTML = '违纪物品';
+                                    op.value = 2;
+                                    select_obj.appendChild(op);
+                                    if (default_dis_type == '违纪物品')
+                                        op.defaultSelected = true;
+                                    tds[5].innerHTML = "";
+                                    tds[5].appendChild(select_obj);
+                                    select_obj.onchange = function () {
+                                        var dis_class = get_dis_class(this.value);
+                                        var select_class_obj = tds[6].childNodes[0];
+                                        select_class_obj.innerHTML = "";
+                                        for (var index_num in dis_class) {
+                                            op = document.createElement('option');
+                                            op.innerHTML = dis_class[index_num].dis_class_name;
+                                            op.value = dis_class[index_num].id;
+                                            select_class_obj.appendChild(op);
+
+                                        }
+                                    };
+                                    // 违纪原因部分
+                                    var default_dis_class = tds[6].innerHTML;
+                                    tds[6].innerHTML = "";
+                                    select_obj = document.createElement('select');
+                                    select_obj.id = 'new_dis_class'.concat(tds[0].innerHTML);
+                                    select_obj.className = "table_input_right_blue";
+                                    select_obj.style.width = '75px';
+                                    tds[6].appendChild(select_obj);
+                                    var dis_class = get_dis_class(default_dis_type == '行为违纪' ? 1 : 2);
+                                    for (var index_num in dis_class) {
+                                        op = document.createElement('option');
+                                        op.innerHTML = dis_class[index_num].dis_class_name;
+                                        op.value = dis_class[index_num].id;
+                                        select_obj.appendChild(op);
+                                        if (default_dis_class == dis_class[index_num].dis_class_name) {
+                                            op.defaultSelected = true;
+                                        }
+                                    }
+                                    // 违纪时间部分
+                                    var default_dis_date = tds[7].innerHTML;
+                                    tds[7].innerHTML = "";
+                                    input_obj = document.createElement('input');
+                                    input_obj.id = 'new_dis_date'.concat(tds[0].innerHTML);
+                                    input_obj.type = 'date';
+                                    input_obj.className = "table_input_right_blue";
+                                    input_obj.value = default_dis_date;
+                                    tds[7].innerHTML = "";
+                                    tds[7].appendChild(input_obj);
+                                    // 备注部分
+                                    var old_others = tds[8].innerHTML;
+                                    tds[8].innerHTML = "";
+                                    input_obj = document.createElement('input');
+                                    input_obj.id = 'new_dis_others'.concat(tds[0].innerHTML);
+                                    input_obj.className = "table_input_right_blue";
+                                    input_obj.value = old_others;
+                                    tds[8].appendChild(input_obj);
+
+                                    // 操作部分
+                                    tds[9].innerHTML = "";
+                                    var sub_button_obj = document.createElement('button');
+                                    sub_button_obj.className = "mdl-button mdl-js-button mdl-button--icon mdl-button--colored";
+                                    sub_button_obj.id = "sub".concat(tds[0].innerHTML);
+                                    sub_button_obj.innerHTML = "<i class='icon material-icons md-18'>done</i>";
+                                    sub_button_obj.onclick = function () {
+                                        // 提交修改按钮点击
+                                        var ajax_info = {
+                                            'dis_id': tds[0].innerHTML,
+                                            'stu_id': document.getElementById('new_stu_id'.concat(tds[0].innerHTML)).value,
+                                            'dis_type': document.getElementById('new_dis_type'.concat(tds[0].innerHTML)).value,
+                                            'dis_class': document.getElementById('new_dis_class'.concat(tds[0].innerHTML)).value,
+                                            'dis_date': document.getElementById('new_dis_date'.concat(tds[0].innerHTML)).value,
+                                            'dis_others': document.getElementById('new_dis_others'.concat(tds[0].innerHTML)).value
+                                        };
+                                        var printMsg = document.querySelector('#show_msg');
+                                        $.ajax({
+                                            url: '/apartment/dis_update',
+                                            type: 'post',
+                                            dataType: 'json',
+                                            data: ajax_info,
+                                            success(data){
+                                                printMsg.MaterialSnackbar.showSnackbar({message: data.msg});
+                                                getDisTable();
+                                            }
+                                        });
+                                    };
+                                    tds[9].appendChild(sub_button_obj);
+
+                                    var div_fot_tools = document.createElement('div');
+                                    div_fot_tools.id = 'div_for_delete';
+                                    div_fot_tools.classList.add('mdl-tooltip');
+                                    div_fot_tools.setAttribute('for', "sub".concat(tds[0].innerHTML));
+                                    div_fot_tools.innerHTML = '提交';
+                                    tds[9].appendChild(div_fot_tools);
+                                    componentHandler.upgradeElement(div_fot_tools);
+
+
+                                    sub_button_obj = document.createElement('button');
+                                    sub_button_obj.className = "mdl-button mdl-js-button mdl-button--icon mdl-button--colored";
+                                    sub_button_obj.id = "cancel".concat(tds[0].innerHTML);
+                                    sub_button_obj.onclick = function () {
+                                        getDisTable();
+                                    };
+                                    sub_button_obj.innerHTML = "<i class='icon material-icons md-18'>close</i>"
+                                    tds[9].appendChild(sub_button_obj);
+
+                                    div_fot_tools = document.createElement('div');
+                                    div_fot_tools.id = 'div_for_delete';
+                                    div_fot_tools.classList.add('mdl-tooltip');
+                                    div_fot_tools.setAttribute('for', "cancel".concat(tds[0].innerHTML));
+                                    div_fot_tools.innerHTML = '取消';
+                                    tds[9].appendChild(div_fot_tools);
+                                    componentHandler.upgradeElement(div_fot_tools);
+
+
+                                };
+                                button_obj.innerHTML = "<i class='icon material-icons md-18'>mode_edit</i>";
+                                var div_fot_tools = document.createElement('div');
+                                div_fot_tools.id = 'div_for_delete';
+                                div_fot_tools.classList.add('mdl-tooltip');
+                                div_fot_tools.setAttribute('for', 'edit'.concat(data.dis_info[it].id));
+                                div_fot_tools.innerHTML = '修改记录';
+                                td.appendChild(div_fot_tools);
+                                componentHandler.upgradeElement(div_fot_tools);
+                                // 删除按钮
+                                button_obj = document.createElement('button');
+                                td.appendChild(button_obj);
+                                button_obj.id = 'remove'.concat(data.dis_info[it].id);
+                                button_obj.className = "mdl-button mdl-js-button mdl-button--icon mdl-button--colored";
+                                button_obj.onclick = function () {
+                                    var dis_id = this.parentNode.parentNode.childNodes[0].innerHTML;
+                                    // 删除按钮点击事件
+                                    create_modal();
+                                    var close_handler = function cancel_madol() {
+                                        var tag_for_remove = document.getElementById('confirm_delete');
+                                        tag_for_remove.parentNode.removeChild(tag_for_remove);
+                                        tag_for_remove = document.getElementById('layout_obfuscator');
+                                        tag_for_remove.parentNode.removeChild(tag_for_remove);
+                                    };
+
+                                    document.getElementById('layout_obfuscator').onclick = close_handler;
+                                    document.getElementById('confirm_cancel').onclick = close_handler;
+                                    document.getElementById('confirm_close').onclick = close_handler;
+                                    document.getElementById('confirm_ok').onclick = function () {
+                                        $.ajax({
+                                            url: '/apartment/dis_del',
+                                            type: 'post',
+                                            dataType: 'json',
+                                            data: {'dis_id': dis_id},
+                                            success(){
+                                                var printMsg = document.querySelector('#show_msg');
+                                                printMsg.MaterialSnackbar.showSnackbar({message: "记录已删除", timeout: 2000});
+                                                close_handler();
+                                                getDisTable();
+                                            }
+                                        });
+                                    };
+                                };
+
+
+                                button_obj.innerHTML = "<i class='icon material-icons md-18'>delete</i>";
+                                div_fot_tools = document.createElement('div');
+                                div_fot_tools.id = 'div_for_delete';
+                                div_fot_tools.classList.add('mdl-tooltip');
+                                div_fot_tools.setAttribute('for', 'remove'.concat(data.dis_info[it].id));
+                                div_fot_tools.innerHTML = '删除记录';
+                                td.appendChild(div_fot_tools);
+                                componentHandler.upgradeElement(div_fot_tools);
+
+
+                            }
+
                         }
-                        document.getElementById('table_body').innerHTML = table_str;
-
                     }
+            )
+            ;
+        }
 
+        function get_dis_class(dis_type) {
+            var dis_class;
+            $.ajax({
+                async: false,
+                url: '/apartment/get_dis_class',
+                dataType: 'json',
+                type: 'post',
+                data: {'dis_type': dis_type},
+                success(data){
+                    dis_class = data.dis_class;
                 }
             });
+            return dis_class;
         }
 
-        function type2class() {
-            var dis_type = document.getElementById('dis_type').valueOf().value;
-            getDisTable();
-            if (dis_type == 1) {
-                document.getElementById("dis_class").innerHTML = "<option value='0'>违纪原因</option><option value='1' class='mdl-selectfield'>烟</option><option value='2' class='mdl-selectfield'>酒</option><option value='3' class='mdl-selectfield'>打火机</option><option value='4' class='mdl-selectfield'>管制刀具</option><option value='5' class='mdl-selectfield'>违规电器</option><option value='10' class='mdl-selectfield'>其他违规物品</option>";
 
-            }
-            else if (dis_type == 2) {
-                document.getElementById("dis_class").innerHTML = "<option value='0'>违纪原因</option><option value='1' class='mdl-selectfield'>早归</option><option value='2' class='mdl-selectfield'>晚归</option><option value='3' class='mdl-selectfield'>夜不归宿</option><option value='4' class='mdl-selectfield'>私开小卖部</option><option value='5' class='mdl-selectfield'>聚众打麻将</option><option value='6' class='mdl-selectfield'>私养宠物</option><option value='7' class='mdl-selectfield'>宿舍打架</option><option value='10' class='mdl-selectfield'>其他违规行为</option>";
+        function create_modal() {
 
-            }
+            var confirm_modal = document.createElement('div');
+            document.getElementsByTagName('main')[0].parentNode.appendChild(confirm_modal);
+            var div_obj = document.createElement('div');
+            div_obj.id = "layout_obfuscator";
+            div_obj.className = "mdl-layout__obfuscator";
+            div_obj.style.height = ''.concat(document.getElementsByTagName('main')[0].children[0].clientHeight, 'px');
+            document.getElementsByTagName('main')[0].appendChild(div_obj);
+
+            componentHandler.upgradeElement(confirm_modal);
+            confirm_modal.className = 'confirm-card-wide mdl-card mdl-shadow--2dp';
+            confirm_modal.style.cssText = "display: none;margin:-100px 0 0 -100px;position:absolute;left: 50%;right:auto;z-index:3;top: 40%;";
+            confirm_modal.id = 'confirm_delete';
+            div_obj = document.createElement('div');
+            div_obj.className = "mdl-card__title";
+            div_obj.innerHTML = "<h2 class='mdl-card__title-text'>请确认操作</h2>";
+            confirm_modal.appendChild(div_obj);
+
+            div_obj = document.createElement('div');
+            div_obj.className = "mdl-card__supporting-text";
+            confirm_modal.appendChild(div_obj);
+            div_obj.innerHTML = "<h4 style='color:#d50000;'>是否删除此条违纪记录</h4>";
+
+            div_obj = document.createElement('div');
+            div_obj.className = 'mdl-card__actions mdl-card--border';
+            confirm_modal.appendChild(div_obj);
+            var a_obj = document.createElement('a');
+            a_obj.className = 'mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect';
+            a_obj.id = 'confirm_ok';
+            a_obj.innerHTML = "<i class='material-icons'>done</i>确认";
+            div_obj.appendChild(a_obj);
+            componentHandler.upgradeElement(a_obj);
+            a_obj = document.createElement('a');
+            a_obj.className = 'mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect';
+            a_obj.id = 'confirm_cancel';
+            a_obj.innerHTML = "<i class='material-icons'>close</i>取消";
+            div_obj.appendChild(a_obj);
+            componentHandler.upgradeElement(a_obj);
+            componentHandler.upgradeElement(div_obj);
+
+            div_obj = document.createElement('div');
+            div_obj.className = 'mdl-card__menu';
+            var button_obj = document.createElement('button');
+            button_obj.innerHTML = "<i class='material-icons' style='color: #fdfdfe;'>close</i>";
+            button_obj.className = "mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect";
+            button_obj.id = "confirm_close";
+            div_obj.appendChild(button_obj);
+            confirm_modal.appendChild(div_obj);
+            componentHandler.upgradeElement(button_obj);
+            componentHandler.upgradeElement(div_obj);
+            componentHandler.upgradeElement(confirm_modal);
+            confirm_modal.style.display = 'block';
+            document.getElementById('layout_obfuscator').classList.add('is-visible');
+
         }
+
 
     </script>
+</%block>
+
+<%block name="css">
+    <style scoped type="text/css">
+
+        .table_input_right {
+            border: none;
+            border-bottom: 1px solid rgba(33, 149, 242, 0.12);
+            text-align: right;
+            color: inherit;
+            background: 0 0;
+            margin: 0;
+            padding: 0;
+            display: block;
+            float: right;
+            font-weight: inherit;
+        }
+
+        .table_input_right_blue {
+            border: none;
+            border-bottom: 1px solid rgba(33, 149, 242, 1);
+            text-align: right;
+            color: inherit;
+            background: 0 0;
+            margin: 0;
+            padding: 0;
+            display: block;
+            float: right;
+            font-weight: inherit;
+        }
+
+        .material-icons.md-18 {
+            font-size: 18px;
+        }
+
+        .confirm-card-wide > .mdl-card__title {
+
+            color: #fdfdfe;
+            height: 100px;
+            background-color: #2195f2;
+
+        }
+    </style>
 </%block>

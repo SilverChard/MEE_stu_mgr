@@ -3951,53 +3951,6 @@ def get_room_info():
     raise gen.Return(rs)
 
 
-def get_dis_item_by_num(num):
-    item = None
-    if num == 1:
-        item = '烟'
-    elif num == 2:
-        item = "酒"
-    elif num == 3:
-        item = "打火机"
-    elif num == 4:
-        item = "管制刀具"
-    elif num == 5:
-        item = "违规电器"
-    elif num == 10:
-        item = "其他违规物品"
-    return item
-
-
-def get_dis_behavior_by_num(num):
-    behavior = None
-    if num == 1:
-        behavior = '早归'
-    elif num == 2:
-        behavior = "晚归"
-    elif num == 3:
-        behavior = "夜不归宿"
-    elif num == 4:
-        behavior = "私开小卖部"
-    elif num == 5:
-        behavior = "聚众打麻将"
-    elif num == 6:
-        behavior = "私养宠物"
-    elif num == 7:
-        behavior = "宿舍打架"
-    elif num == 10:
-        behavior = "其他违纪行为"
-    return behavior
-
-
-def get_dis_type_by_num(num):
-    dis_type = None
-    if num == 1:
-        dis_type = "宿舍违纪物品"
-    elif num == 2:
-        dis_type = "宿舍行为违纪"
-    return dis_type
-
-
 @gen.coroutine
 def generate_excel(res, thead):
     workbook = xlwt.Workbook(encoding='utf-8')
@@ -4021,6 +3974,16 @@ def generate_excel(res, thead):
     sio = StringIO.StringIO()
     workbook.save(sio)
     raise gen.Return(sio)
+
+
+@gen.coroutine
+def check_stu_id_exist(stu_id):
+    cur = yield database.pool.execute("SELECT * FROM student_info WHERE `student_info`.`stu_id`= %s", stu_id)
+    rs = database.cur_to_dict(cur)
+    if len(rs) == 1:
+        raise gen.Return(True)
+    else:
+        raise gen.Return(False)
 
 
 def get_province_by_id(adr_id):
